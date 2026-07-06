@@ -41,12 +41,21 @@ button {
 }
 
 .topbar,
+.metrics-strip,
 .plant-panel,
 .risk-panel,
 .pathway-panel,
+.graph-panel,
 .replay-panel,
+.permit-panel,
+.memory-panel,
+.checklist-panel,
 .evidence-panel,
-.events-panel {
+.events-panel,
+.evaluation-panel,
+.benchmark-panel,
+.submission-panel,
+.pitch-panel {
   border: 1px solid rgba(244, 241, 232, 0.1);
   background: rgba(25, 28, 33, 0.88);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
@@ -60,6 +69,35 @@ button {
   min-height: 88px;
   padding: 18px 22px;
   border-radius: 8px;
+}
+
+.metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 16px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.metrics-strip div {
+  display: grid;
+  gap: 7px;
+  min-height: 82px;
+  padding: 16px;
+  background: rgba(34, 38, 45, 0.82);
+}
+
+.metrics-strip span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.metrics-strip strong {
+  font-size: clamp(1.35rem, 3vw, 2.05rem);
+  line-height: 1;
 }
 
 .eyebrow {
@@ -144,9 +182,17 @@ body[data-risk="critical"] .state-dot {
 .plant-panel,
 .risk-panel,
 .pathway-panel,
+.graph-panel,
 .replay-panel,
+.permit-panel,
+.memory-panel,
+.checklist-panel,
 .evidence-panel,
-.events-panel {
+.events-panel,
+.evaluation-panel,
+.benchmark-panel,
+.submission-panel,
+.pitch-panel {
   border-radius: 8px;
   padding: 18px;
 }
@@ -429,6 +475,30 @@ body[data-risk="critical"] .risk-badge {
   gap: 10px;
 }
 
+.method-card {
+  display: grid;
+  gap: 7px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid rgba(82, 199, 193, 0.24);
+  border-radius: 8px;
+  background: rgba(82, 199, 193, 0.06);
+}
+
+.method-card span {
+  color: var(--teal);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.method-card p,
+.method-card small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .factor-row {
   display: grid;
   gap: 8px;
@@ -468,7 +538,10 @@ body[data-risk="critical"] .risk-badge {
 .pathway-list li,
 #event-feed li,
 .future-card,
-.intervention-card {
+.intervention-card,
+.graph-summary,
+.graph-paths div,
+.relationship-list div {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.028);
@@ -518,6 +591,74 @@ body[data-risk="critical"] .risk-badge {
   margin-top: 8px;
   color: var(--blue);
   font-size: 0.75rem;
+}
+
+.graph-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  padding: 13px;
+}
+
+.graph-summary strong {
+  color: var(--teal);
+}
+
+.graph-summary p {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.graph-paths,
+.relationship-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.graph-paths div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+  padding: 12px;
+}
+
+.graph-paths span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(82, 199, 193, 0.12);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.graph-paths .edge-label {
+  background: rgba(246, 184, 75, 0.12);
+  color: var(--amber);
+  font-size: 0.7rem;
+}
+
+.relationship-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  min-height: 50px;
+  padding: 10px;
+}
+
+.relationship-list span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.relationship-list b {
+  color: var(--blue);
+  font-size: 0.68rem;
 }
 
 .future-grid {
@@ -583,6 +724,133 @@ body[data-risk="critical"] .risk-badge {
   margin-top: 6px;
 }
 
+.permit-card,
+.memory-card,
+.conflict-list div,
+.checklist li {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.permit-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.permit-card > div,
+.memory-card > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.permit-card span,
+.memory-card span,
+.checklist span {
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.permit-card strong {
+  color: var(--amber);
+}
+
+.permit-card.unsafe-after-issue strong {
+  color: var(--red);
+}
+
+.permit-card p,
+.memory-card p,
+.checklist p {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.permit-card small,
+.memory-card small,
+.conflict-list small {
+  color: var(--blue);
+  line-height: 1.4;
+}
+
+.conflict-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.conflict-list div {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+}
+
+.conflict-list b {
+  color: var(--amber);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+}
+
+.memory-query {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(82, 199, 193, 0.22);
+  border-radius: 8px;
+  color: var(--teal);
+  background: rgba(82, 199, 193, 0.06);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.memory-card {
+  display: grid;
+  gap: 9px;
+  padding: 14px;
+}
+
+.memory-card + .memory-card {
+  margin-top: 10px;
+}
+
+.memory-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.checklist {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 12px;
+  align-items: center;
+  min-height: 62px;
+  padding: 11px;
+}
+
+.checklist li.required span {
+  color: var(--red);
+}
+
+.checklist li.recommended span {
+  color: var(--amber);
+}
+
+.checklist li.active span {
+  color: var(--green);
+}
+
 .intervention-meta {
   display: flex;
   flex-wrap: wrap;
@@ -619,6 +887,235 @@ body[data-risk="critical"] .risk-badge {
   padding: 12px;
 }
 
+.evaluation-table {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.evaluation-table div {
+  display: grid;
+  gap: 7px;
+  min-height: 78px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.evaluation-table span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.evaluation-table strong {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.evaluation-table p {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.benchmark-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.benchmark-summary div,
+.benchmark-table div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.benchmark-summary div {
+  display: grid;
+  gap: 7px;
+  min-height: 74px;
+  padding: 12px;
+}
+
+.benchmark-summary span,
+.benchmark-table span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.benchmark-summary strong {
+  font-size: 1.25rem;
+}
+
+.benchmark-table {
+  display: grid;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.benchmark-table div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px 72px 82px;
+  gap: 10px;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px;
+}
+
+.benchmark-table b {
+  color: var(--blue);
+  font-size: 0.82rem;
+}
+
+.benchmark-table strong {
+  color: var(--green);
+  font-size: 0.86rem;
+}
+
+.submission-score,
+.criteria-list div,
+.deliverable-list div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.submission-score {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 10px 14px;
+  align-items: center;
+  padding: 14px;
+}
+
+.submission-score strong {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  border: 1px solid rgba(87, 214, 141, 0.38);
+  border-radius: 50%;
+  color: var(--green);
+  background: rgba(87, 214, 141, 0.1);
+  font-size: 1.7rem;
+}
+
+.submission-score span,
+.criteria-list span,
+.deliverable-list b {
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.submission-score p,
+.criteria-list p,
+.deliverable-list p {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.criteria-list,
+.deliverable-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.criteria-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px 12px;
+  padding: 12px;
+}
+
+.criteria-list strong {
+  color: var(--green);
+}
+
+.criteria-list p {
+  grid-column: 1 / -1;
+}
+
+.deliverable-list div {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 7px 10px;
+  padding: 12px;
+}
+
+.deliverable-list p {
+  grid-column: 2;
+}
+
+.deliverable-list .next b {
+  color: var(--amber);
+}
+
+.pitch-card,
+.proof-list div,
+.demo-flow li {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.pitch-card {
+  display: grid;
+  gap: 9px;
+  padding: 14px;
+}
+
+.pitch-card span {
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.pitch-card strong {
+  line-height: 1.35;
+}
+
+.pitch-card p,
+.demo-flow li {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.proof-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.proof-list div {
+  padding: 10px 12px;
+  color: var(--green);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.demo-flow {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style-position: inside;
+}
+
+.demo-flow li {
+  padding: 10px 12px;
+}
+
 #event-feed time {
   display: inline-block;
   min-width: 54px;
@@ -644,6 +1141,7 @@ body[data-risk="critical"] .risk-badge {
   }
 
   .topbar,
+  .metrics-strip,
   .dashboard-grid,
   .future-grid,
   .control-strip {
@@ -668,5 +1166,22 @@ body[data-risk="critical"] .risk-badge {
   .zone-c {
     left: 22%;
     width: 54%;
+  }
+
+  .checklist li {
+    grid-template-columns: 1fr;
+  }
+
+  .benchmark-summary,
+  .benchmark-table div,
+  .submission-score,
+  .criteria-list div,
+  .deliverable-list div {
+    grid-template-columns: 1fr;
+  }
+
+  .submission-score strong,
+  .deliverable-list p {
+    grid-column: auto;
   }
 }

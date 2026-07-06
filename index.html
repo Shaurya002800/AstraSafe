@@ -27,6 +27,25 @@
         </div>
       </section>
 
+      <section class="metrics-strip" aria-label="Operational metrics">
+        <div>
+          <span>Prediction lead time</span>
+          <strong id="metric-lead">--</strong>
+        </div>
+        <div>
+          <span>Single-sensor baseline</span>
+          <strong id="metric-baseline">Silent</strong>
+        </div>
+        <div>
+          <span>Projected risk reduction</span>
+          <strong id="metric-reduction">--</strong>
+        </div>
+        <div>
+          <span>Evidence links</span>
+          <strong id="metric-evidence">0</strong>
+        </div>
+      </section>
+
       <section class="dashboard-grid">
         <section class="plant-panel" aria-label="Live plant map">
           <div class="panel-header">
@@ -88,6 +107,7 @@
             <div id="risk-fill"></div>
           </div>
           <div class="factor-list" id="factor-list"></div>
+          <div class="method-card" id="method-output"></div>
         </aside>
 
         <section class="pathway-panel" aria-label="Causal accident pathway">
@@ -98,6 +118,16 @@
             </div>
           </div>
           <ol class="pathway-list" id="pathway-list"></ol>
+        </section>
+
+        <section class="graph-panel" aria-label="Live knowledge graph">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Knowledge Graph</p>
+              <h2>Connected Safety Context</h2>
+            </div>
+          </div>
+          <div id="graph-output"></div>
         </section>
 
         <section class="replay-panel" aria-label="Counterfactual replay">
@@ -122,6 +152,36 @@
           <div class="intervention-card" id="intervention-card"></div>
         </section>
 
+        <section class="permit-panel" aria-label="Permit intelligence">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Permit Intelligence</p>
+              <h2>Changing Context Review</h2>
+            </div>
+          </div>
+          <div id="permit-output"></div>
+        </section>
+
+        <section class="memory-panel" aria-label="Incident memory">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Incident Memory</p>
+              <h2>Similar Near Misses and SOPs</h2>
+            </div>
+          </div>
+          <div id="memory-output"></div>
+        </section>
+
+        <section class="checklist-panel" aria-label="Safety officer checklist">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Safety Officer Copilot</p>
+              <h2>Action Checklist</h2>
+            </div>
+          </div>
+          <ul class="checklist" id="checklist-output"></ul>
+        </section>
+
         <section class="evidence-panel" aria-label="Evidence and prevention report">
           <div class="panel-header compact">
             <div>
@@ -141,6 +201,47 @@
             </div>
           </div>
           <ul id="event-feed"></ul>
+        </section>
+
+        <section class="evaluation-panel" aria-label="Evaluation summary">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Evaluation</p>
+              <h2>Baseline Comparison</h2>
+            </div>
+          </div>
+          <div class="evaluation-table" id="evaluation-output"></div>
+        </section>
+
+        <section class="benchmark-panel" aria-label="Benchmark suite">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Benchmark Suite</p>
+              <h2>Scenario-Level Results</h2>
+            </div>
+          </div>
+          <div id="benchmark-output"></div>
+        </section>
+
+        <section class="submission-panel" aria-label="Submission readiness">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Submission Readiness</p>
+              <h2>Judging Alignment</h2>
+            </div>
+          </div>
+          <div id="submission-output"></div>
+        </section>
+
+        <section class="pitch-panel" aria-label="Pitch pack">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Pitch Pack</p>
+              <h2>Deck and Demo Brief</h2>
+            </div>
+            <button id="copy-brief" class="secondary-action">Copy Brief</button>
+          </div>
+          <div id="pitch-output"></div>
         </section>
       </section>
     </main>

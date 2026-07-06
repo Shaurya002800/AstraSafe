@@ -1,12 +1,6 @@
-import { getEventsUntil, plantLayout, scenarioEvents } from "./domain/scenario.js";
-import {
-  buildPathway,
-  computeRisk,
-  factorLabels,
-  generatePreventionReport,
-  rankInterventions,
-  simulateFutures
-} from "./domain/risk-engine.js";
+import { plantLayout, scenarioEvents } from "./domain/scenario.js";
+import { buildSnapshot } from "./domain/snapshot.js";
+import { factorLabels } from "./domain/risk-engine.js";
 
 const ui = {
   scenarioTime: document.querySelector("#scenario-time"),
@@ -26,7 +20,21 @@ const ui = {
   reportOutput: document.querySelector("#report-output"),
   playToggle: document.querySelector("#play-toggle"),
   copyReport: document.querySelector("#copy-report"),
-  plantMap: document.querySelector("#plant-map")
+  plantMap: document.querySelector("#plant-map"),
+  metricLead: document.querySelector("#metric-lead"),
+  metricBaseline: document.querySelector("#metric-baseline"),
+  metricReduction: document.querySelector("#metric-reduction"),
+  metricEvidence: document.querySelector("#metric-evidence"),
+  methodOutput: document.querySelector("#method-output"),
+  evaluationOutput: document.querySelector("#evaluation-output"),
+  permitOutput: document.querySelector("#permit-output"),
+  memoryOutput: document.querySelector("#memory-output"),
+  checklistOutput: document.querySelector("#checklist-output"),
+  graphOutput: document.querySelector("#graph-output"),
+  benchmarkOutput: document.querySelector("#benchmark-output"),
+  submissionOutput: document.querySelector("#submission-output"),
+  pitchOutput: document.querySelector("#pitch-output"),
+  copyBrief: document.querySelector("#copy-brief")
 };
 
 let eventIndex = 0;
@@ -64,7 +72,7 @@ function renderFactors(riskResult) {
 }
 
 function renderPathway(riskResult) {
-  const pathway = buildPathway(riskResult);
+  const pathway = riskResult.pathway;
   ui.pathwayList.innerHTML = pathway.length
     ? pathway
         .map(
@@ -80,6 +88,45 @@ function renderPathway(riskResult) {
     : `<li><span>Monitoring baseline</span><p>No compound accident chain has formed yet.</p><small>evt_1001</small></li>`;
 }
 
+function renderGraph(snapshot) {
+  const graph = snapshot.intelligence.graphContext;
+  ui.graphOutput.innerHTML = `
+    <div class="graph-summary">
+      <strong>${graph.activeNodeCount} active nodes</strong>
+      <strong>${graph.activeRelationshipCount} active links</strong>
+      <p>${graph.summary}</p>
+    </div>
+    <div class="graph-paths">
+      ${graph.causalPaths.length
+        ? graph.causalPaths
+            .map(
+              (path) => `
+                <div>
+                  ${path.map((item, index) => `<span class="${index % 2 ? "edge-label" : ""}">${item}</span>`).join("")}
+                </div>
+              `
+            )
+            .join("")
+        : "<div><span>Zone C</span><span class=\"edge-label\">MONITORING</span><span>Sensor G7</span></div>"}
+    </div>
+    <div class="relationship-list">
+      ${graph.relationships
+        .filter((edge) => edge.active)
+        .slice(0, 7)
+        .map(
+          (edge) => `
+            <div>
+              <span>${edge.from}</span>
+              <b>${edge.relation}</b>
+              <span>${edge.to}</span>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
 function renderBars(target, points) {
   target.innerHTML = points
     .map(
@@ -93,8 +140,8 @@ function renderBars(target, points) {
 }
 
 function renderFutures(riskResult) {
-  const futures = simulateFutures(riskResult);
-  const [best] = rankInterventions(riskResult);
+  const futures = riskResult.futures;
+  const [best] = riskResult.interventions;
 
   ui.noActionRisk.textContent = `${futures.noAction.at(-1).risk}/100`;
   ui.actionRisk.textContent = `${futures.intervention.at(-1).risk}/100`;
@@ -139,13 +186,198 @@ function renderMapState(riskResult) {
 }
 
 function renderReport(events, riskResult, intervention) {
-  ui.reportOutput.textContent = generatePreventionReport(events, riskResult, intervention);
+  ui.reportOutput.textContent = riskResult.report;
+}
+
+function renderMetrics(snapshot) {
+  ui.metricLead.textContent = snapshot.metrics.leadTimeMinutes
+    ? `${snapshot.metrics.leadTimeMinutes} min`
+    : "--";
+  ui.metricBaseline.textContent =
+    snapshot.metrics.baselineStatus === "silent" ? "Silent" : "Alerting";
+  ui.metricReduction.textContent = `${snapshot.metrics.projectedRiskReduction} pts`;
+  ui.metricEvidence.textContent = `${snapshot.metrics.evidenceCount}`;
+}
+
+function renderMethodology(snapshot) {
+  const weights = Object.entries(snapshot.methodology.weights)
+    .map(([key, value]) => `${factorLabels[key]} ${Math.round(value * 100)}%`)
+    .join(" / ");
+
+  ui.methodOutput.innerHTML = `
+    <span>${snapshot.methodology.scoring.replaceAll("_", " ")}</span>
+    <p>${weights}</p>
+    <small>${snapshot.methodology.guardrails[0]}</small>
+  `;
+}
+
+function renderEvaluation(snapshot) {
+  const evaluation = snapshot.evaluation;
+  ui.evaluationOutput.innerHTML = `
+    <div><span>Scenario</span><strong>${evaluation.title}</strong></div>
+    <div><span>Baseline alert</span><strong>${evaluation.baseline.alertClock}</strong></div>
+    <div><span>AstraSafe alert</span><strong>${evaluation.astrasafe.alertClock}</strong></div>
+    <div><span>Lead time gained</span><strong>${evaluation.metrics.leadTimeMinutes} min</strong></div>
+    <p>${evaluation.result}</p>
+  `;
+}
+
+function renderBenchmark(snapshot) {
+  const benchmark = snapshot.benchmark;
+  ui.benchmarkOutput.innerHTML = `
+    <div class="benchmark-summary">
+      <div><span>Scenarios</span><strong>${benchmark.summary.scenarioCount}</strong></div>
+      <div><span>Detection rate</span><strong>${Math.round(benchmark.summary.astraSafeDetectionRate * 100)}%</strong></div>
+      <div><span>Avg lead time</span><strong>${benchmark.summary.averageLeadTimeMinutes} min</strong></div>
+      <div><span>Avg risk reduction</span><strong>${benchmark.summary.averageRiskReduction} pts</strong></div>
+    </div>
+    <div class="benchmark-table">
+      ${benchmark.scenarios
+        .map(
+          (scenario) => `
+            <div>
+              <span>${scenario.title}</span>
+              <b>${scenario.astraSafeAlertClock}</b>
+              <b>${scenario.baselineAlertClock}</b>
+              <strong>${scenario.leadTimeMinutes ?? "Detected"}${scenario.leadTimeMinutes ? " min" : ""}</strong>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+function renderSubmission(snapshot) {
+  const submission = snapshot.submission;
+  ui.submissionOutput.innerHTML = `
+    <div class="submission-score">
+      <strong>${submission.overallReadiness}</strong>
+      <span>${submission.status.replaceAll("_", " ")}</span>
+      <p>${submission.finalPitch}</p>
+    </div>
+    <div class="criteria-list">
+      ${submission.criteria
+        .map(
+          (criterion) => `
+            <div>
+              <span>${criterion.label} / ${criterion.weight}%</span>
+              <strong>${criterion.readiness}%</strong>
+              <p>${criterion.evidence}</p>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+    <div class="deliverable-list">
+      ${submission.deliverables
+        .map(
+          (item) => `
+            <div class="${item.status}">
+              <b>${item.status}</b>
+              <span>${item.label}</span>
+              <p>${item.evidence}</p>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+function renderPitchPack(snapshot) {
+  const pitch = snapshot.pitchPack;
+  ui.pitchOutput.innerHTML = `
+    <div class="pitch-card">
+      <span>${pitch.title}</span>
+      <strong>${pitch.oneLinePitch}</strong>
+      <p>${pitch.problem}</p>
+    </div>
+    <div class="proof-list">
+      ${pitch.proofPoints.map((point) => `<div>${point}</div>`).join("")}
+    </div>
+    <ol class="demo-flow">
+      ${pitch.demoFlow.map((step) => `<li>${step}</li>`).join("")}
+    </ol>
+  `;
+  ui.copyBrief.dataset.brief = pitch.markdown;
+}
+
+function renderPermit(snapshot) {
+  const permit = snapshot.intelligence.permit;
+  ui.permitOutput.innerHTML = `
+    <div class="permit-card ${permit.currentStatus.toLowerCase().replaceAll(" ", "-")}">
+      <div>
+        <span>${permit.displayId}</span>
+        <strong>${permit.currentStatus}</strong>
+      </div>
+      <p>${permit.recommendation}</p>
+      <small>${permit.type} / ${permit.zone} / Supervisor ${permit.supervisor} / Confidence ${permit.confidence}</small>
+    </div>
+    <div class="conflict-list">
+      ${permit.conflicts.length
+        ? permit.conflicts
+            .map(
+              (conflict) => `
+                <div>
+                  <b>${conflict.severity}</b>
+                  <span>${conflict.detail}</span>
+                  <small>${conflict.eventId}</small>
+                </div>
+              `
+            )
+            .join("")
+        : "<div><b>clear</b><span>No permit conflict detected at this step.</span><small>permit.HW204</small></div>"}
+    </div>
+  `;
+}
+
+function renderMemory(snapshot) {
+  const memory = snapshot.intelligence.incidentMemory;
+  ui.memoryOutput.innerHTML = `
+    <div class="memory-query">Query: ${memory.query}</div>
+    ${memory.matches
+      .map(
+        (match) => `
+          <article class="memory-card">
+            <div>
+              <span>${match.sourceId}</span>
+              <strong>${Math.round(match.similarity * 100)}% match</strong>
+            </div>
+            <h3>${match.title}</h3>
+            <p>${match.summary}</p>
+            <small>${match.correctiveAction}</small>
+          </article>
+        `
+      )
+      .join("")}
+  `;
+}
+
+function renderChecklist(snapshot) {
+  ui.checklistOutput.innerHTML = snapshot.intelligence.actionChecklist
+    .map(
+      (item) => `
+        <li class="${item.status}">
+          <span>${item.status}</span>
+          <p>${item.label}</p>
+        </li>
+      `
+    )
+    .join("");
 }
 
 function render() {
-  const events = getEventsUntil(eventIndex);
+  const snapshot = buildSnapshot(eventIndex);
+  const events = snapshot.world.activeEvents;
   const currentEvent = events.at(-1);
-  const riskResult = computeRisk(events);
+  const riskResult = {
+    ...snapshot.risk,
+    futures: snapshot.futures,
+    interventions: snapshot.interventions,
+    pathway: snapshot.pathway,
+    report: snapshot.report
+  };
   const intervention = renderFutures(riskResult);
 
   ui.scenarioTime.textContent = currentEvent.clock;
@@ -160,9 +392,19 @@ function render() {
   setBodyState(riskResult.score);
   renderFactors(riskResult);
   renderPathway(riskResult);
+  renderGraph(snapshot);
   renderEvents(events);
   renderMapState(riskResult);
   renderReport(events, riskResult, intervention);
+  renderMetrics(snapshot);
+  renderMethodology(snapshot);
+  renderEvaluation(snapshot);
+  renderBenchmark(snapshot);
+  renderSubmission(snapshot);
+  renderPitchPack(snapshot);
+  renderPermit(snapshot);
+  renderMemory(snapshot);
+  renderChecklist(snapshot);
 }
 
 function step(direction) {
@@ -199,6 +441,13 @@ ui.copyReport.addEventListener("click", async () => {
   ui.copyReport.textContent = "Copied";
   window.setTimeout(() => {
     ui.copyReport.textContent = "Copy Report";
+  }, 1200);
+});
+ui.copyBrief.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(ui.copyBrief.dataset.brief || "");
+  ui.copyBrief.textContent = "Copied";
+  window.setTimeout(() => {
+    ui.copyBrief.textContent = "Copy Brief";
   }, 1200);
 });
 

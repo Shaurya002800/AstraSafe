@@ -34,11 +34,38 @@ npm test
 - Deterministic synthetic plant simulator.
 - Explainable compound risk engine using the weighted model from the project plan.
 - Single-sensor baseline comparator.
+- API-style snapshot endpoints for world state, risk, futures and reports.
+- Permit intelligence that detects when a previously valid hot-work permit becomes unsafe after live context changes.
+- Incident memory retrieval with near-miss and SOP matches.
+- Live knowledge graph context that links workers, zones, permits, sensors, equipment and incident memory.
+- Safety officer action checklist.
+- Benchmark suite covering multiple compound-risk scenarios and baseline comparison.
+- Submission readiness API mapping the prototype to hackathon judging criteria and deliverables.
+- Pitch pack API and copyable demo brief for deck/video preparation.
 - Causal factor evidence with event IDs.
 - Counterfactual future simulator for no-action and intervention futures.
 - Intervention ranking based on projected risk reduction, response speed, confidence, reversibility and disruption.
 - Prevention report generator with confirmed facts, predictions, recommended actions and uncertainty.
 - Judge-facing command-center UI.
+
+## API Endpoints
+
+Use `step=6` to inspect the prevention moment.
+
+```bash
+curl http://127.0.0.1:4173/api/health
+curl "http://127.0.0.1:4173/api/world/current?step=6"
+curl "http://127.0.0.1:4173/api/risk/current?step=6"
+curl "http://127.0.0.1:4173/api/futures/simulate?step=6"
+curl "http://127.0.0.1:4173/api/intelligence/permit?step=6"
+curl "http://127.0.0.1:4173/api/intelligence/memory?step=6"
+curl "http://127.0.0.1:4173/api/graph/context?step=6"
+curl "http://127.0.0.1:4173/api/reports/latest?step=6"
+curl http://127.0.0.1:4173/api/evaluation/summary
+curl http://127.0.0.1:4173/api/evaluation/benchmark
+curl http://127.0.0.1:4173/api/submission/readiness
+curl http://127.0.0.1:4173/api/submission/pitch-pack
+```
 
 ## Safety Positioning
 
