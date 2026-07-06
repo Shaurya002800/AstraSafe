@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AstraSafe AI - Causal Safety Twin</title>
+    <meta
+      name="description"
+      content="AstraSafe AI predicts industrial accident pathways before traditional alarms trigger."
+    />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="topbar" aria-label="AstraSafe status">
+        <div>
+          <p class="eyebrow">Nova Steel Demo Plant / Zone C</p>
+          <h1>AstraSafe AI</h1>
+        </div>
+        <div class="system-state" id="system-state">
+          <span class="state-dot"></span>
+          <span>Monitoring</span>
+        </div>
+        <div class="time-block">
+          <span>Scenario clock</span>
+          <strong id="scenario-time">10:30</strong>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <section class="plant-panel" aria-label="Live plant map">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Command Center</p>
+              <h2>The Accident That Never Happened</h2>
+            </div>
+            <div class="risk-badge" id="risk-badge">0</div>
+          </div>
+
+          <div class="plant-map" id="plant-map">
+            <div class="route route-a"></div>
+            <div class="route route-b"></div>
+            <button class="zone zone-a" data-zone="zone_A">
+              <span>Zone A</span>
+              <small>Loading Bay</small>
+            </button>
+            <button class="zone zone-b" data-zone="zone_B">
+              <span>Zone B</span>
+              <small>Utilities</small>
+            </button>
+            <button class="zone zone-c" data-zone="zone_C">
+              <span>Zone C</span>
+              <small>Coke Oven / Hot Work</small>
+            </button>
+            <button class="zone zone-d" data-zone="zone_D">
+              <span>Zone D</span>
+              <small>Maintenance</small>
+            </button>
+            <div class="asset gas-sensor" title="Gas Sensor G7">G7</div>
+            <div class="asset fan" title="Ventilation Fan VF-2">VF-2</div>
+            <div class="asset permit" title="Hot Work Permit HW-204">HW</div>
+            <div class="worker worker-1" title="Worker W12"></div>
+            <div class="worker worker-2" title="Worker W14"></div>
+            <div class="worker worker-3" title="Worker W19"></div>
+          </div>
+
+          <div class="control-strip" aria-label="Scenario controls">
+            <button id="step-back" class="icon-button" title="Step back" aria-label="Step back">
+              <span aria-hidden="true">‹</span>
+            </button>
+            <button id="play-toggle" class="primary-action">Play Scenario</button>
+            <button id="step-forward" class="icon-button" title="Step forward" aria-label="Step forward">
+              <span aria-hidden="true">›</span>
+            </button>
+            <button id="jump-critical" class="secondary-action">Jump to Prevention</button>
+          </div>
+        </section>
+
+        <aside class="risk-panel" aria-label="Current risk explanation">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Compound Risk</p>
+              <h2 id="risk-state">Normal</h2>
+            </div>
+            <span class="lead-time" id="lead-time">No lead time yet</span>
+          </div>
+          <div class="risk-meter" aria-hidden="true">
+            <div id="risk-fill"></div>
+          </div>
+          <div class="factor-list" id="factor-list"></div>
+        </aside>
+
+        <section class="pathway-panel" aria-label="Causal accident pathway">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Causal Pathway</p>
+              <h2>Why AstraSafe Acts Early</h2>
+            </div>
+          </div>
+          <ol class="pathway-list" id="pathway-list"></ol>
+        </section>
+
+        <section class="replay-panel" aria-label="Counterfactual replay">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Counterfactual Replay</p>
+              <h2>No Action vs Recommended Action</h2>
+            </div>
+          </div>
+          <div class="future-grid">
+            <div class="future-card no-action">
+              <span>No Action</span>
+              <strong id="no-action-risk">--</strong>
+              <div class="sparkline" id="no-action-bars"></div>
+            </div>
+            <div class="future-card intervention">
+              <span>Pause + Evacuate + Restore VF-2</span>
+              <strong id="action-risk">--</strong>
+              <div class="sparkline" id="action-bars"></div>
+            </div>
+          </div>
+          <div class="intervention-card" id="intervention-card"></div>
+        </section>
+
+        <section class="evidence-panel" aria-label="Evidence and prevention report">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Evidence Engine</p>
+              <h2>Prevention Report</h2>
+            </div>
+            <button id="copy-report" class="secondary-action">Copy Report</button>
+          </div>
+          <pre id="report-output"></pre>
+        </section>
+
+        <section class="events-panel" aria-label="Live event stream">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Event Stream</p>
+              <h2>Verified Signals</h2>
+            </div>
+          </div>
+          <ul id="event-feed"></ul>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
