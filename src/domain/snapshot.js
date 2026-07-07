@@ -17,6 +17,7 @@ import { buildGraphContext } from "./graph-context.js";
 import { buildBenchmarkSummary } from "./benchmark.js";
 import { buildSubmissionReadiness } from "./submission.js";
 import { buildPitchPack } from "./pitch-pack.js";
+import { buildRecordingPlan } from "./recording-plan.js";
 
 export function clampEventIndex(index = 0) {
   const parsed = Number(index);
@@ -100,6 +101,7 @@ export function buildSnapshot(index = 0) {
 
   return {
     ...enrichedSnapshot,
-    pitchPack: buildPitchPack(enrichedSnapshot)
+    pitchPack: buildPitchPack(enrichedSnapshot),
+    recordingPlan: buildRecordingPlan(enrichedSnapshot)
   };
 }

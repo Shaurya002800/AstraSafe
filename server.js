@@ -130,6 +130,12 @@ function handleApi(req, res) {
     return true;
   }
 
+  if (url.pathname === "/api/submission/recording-plan") {
+    const recordingStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(recordingStep).recordingPlan);
+    return true;
+  }
+
   if (url.pathname.startsWith("/api/")) {
     sendJson(res, 404, { ok: false, error: "Unknown AstraSafe API route." });
     return true;

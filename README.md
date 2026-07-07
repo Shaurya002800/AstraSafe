@@ -42,6 +42,7 @@ npm test
 - Benchmark suite covering multiple compound-risk scenarios and baseline comparison.
 - Submission readiness API mapping the prototype to hackathon judging criteria and deliverables.
 - Pitch pack API and copyable demo brief for deck/video preparation.
+- Timed demo recording plan for a 4-minute submission video.
 - Causal factor evidence with event IDs.
 - Counterfactual future simulator for no-action and intervention futures.
 - Intervention ranking based on projected risk reduction, response speed, confidence, reversibility and disruption.
@@ -65,6 +66,7 @@ curl http://127.0.0.1:4173/api/evaluation/summary
 curl http://127.0.0.1:4173/api/evaluation/benchmark
 curl http://127.0.0.1:4173/api/submission/readiness
 curl http://127.0.0.1:4173/api/submission/pitch-pack
+curl http://127.0.0.1:4173/api/submission/recording-plan
 ```
 
 ## Safety Positioning

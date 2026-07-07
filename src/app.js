@@ -34,7 +34,9 @@ const ui = {
   benchmarkOutput: document.querySelector("#benchmark-output"),
   submissionOutput: document.querySelector("#submission-output"),
   pitchOutput: document.querySelector("#pitch-output"),
-  copyBrief: document.querySelector("#copy-brief")
+  copyBrief: document.querySelector("#copy-brief"),
+  recordingOutput: document.querySelector("#recording-output"),
+  copyRecording: document.querySelector("#copy-recording")
 };
 
 let eventIndex = 0;
@@ -303,6 +305,47 @@ function renderPitchPack(snapshot) {
   ui.copyBrief.dataset.brief = pitch.markdown;
 }
 
+function renderRecordingPlan(snapshot) {
+  const plan = snapshot.recordingPlan;
+  ui.recordingOutput.innerHTML = `
+    <div class="recording-summary">
+      <strong>${plan.title}</strong>
+      <p>${plan.openingLine}</p>
+    </div>
+    <div class="scene-list">
+      ${plan.scenes
+        .map(
+          (scene) => `
+            <article>
+              <time>${scene.timeRange}</time>
+              <div>
+                <span>${scene.screen}</span>
+                <p>${scene.action}</p>
+                <small>${scene.narration}</small>
+              </div>
+            </article>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+  ui.copyRecording.dataset.plan = [
+    `# ${plan.title}`,
+    "",
+    `Opening: ${plan.openingLine}`,
+    "",
+    ...plan.scenes.map(
+      (scene) =>
+        `## ${scene.timeRange} - ${scene.screen}\nAction: ${scene.action}\nNarration: ${scene.narration}`
+    ),
+    "",
+    "## Checklist",
+    ...plan.recordingChecklist.map((item) => `- ${item}`),
+    "",
+    `Closing: ${plan.closingLine}`
+  ].join("\n");
+}
+
 function renderPermit(snapshot) {
   const permit = snapshot.intelligence.permit;
   ui.permitOutput.innerHTML = `
@@ -402,6 +445,7 @@ function render() {
   renderBenchmark(snapshot);
   renderSubmission(snapshot);
   renderPitchPack(snapshot);
+  renderRecordingPlan(snapshot);
   renderPermit(snapshot);
   renderMemory(snapshot);
   renderChecklist(snapshot);
@@ -448,6 +492,13 @@ ui.copyBrief.addEventListener("click", async () => {
   ui.copyBrief.textContent = "Copied";
   window.setTimeout(() => {
     ui.copyBrief.textContent = "Copy Brief";
+  }, 1200);
+});
+ui.copyRecording.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(ui.copyRecording.dataset.plan || "");
+  ui.copyRecording.textContent = "Copied";
+  window.setTimeout(() => {
+    ui.copyRecording.textContent = "Copy Plan";
   }, 1200);
 });
 

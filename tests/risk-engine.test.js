@@ -19,6 +19,7 @@ import { buildGraphContext } from "../src/domain/graph-context.js";
 import { buildBenchmarkSummary } from "../src/domain/benchmark.js";
 import { buildSubmissionReadiness } from "../src/domain/submission.js";
 import { buildPitchPack } from "../src/domain/pitch-pack.js";
+import { buildRecordingPlan } from "../src/domain/recording-plan.js";
 
 test("AstraSafe detects the pathway before the traditional gas alarm", () => {
   const preventionEvents = scenarioEvents.slice(
@@ -151,4 +152,14 @@ test("pitch pack turns current evidence into a demo brief", () => {
   assert.ok(pitchPack.apiCatalog.includes("/api/submission/pitch-pack"));
   assert.match(pitchPack.markdown, /AstraSafe alert: 10:45/);
   assert.match(pitchPack.markdown, /Lead time gained: 21 minutes/);
+});
+
+test("recording plan gives a timed storyboard for the demo video", () => {
+  const snapshot = buildSnapshot(6);
+  const recordingPlan = buildRecordingPlan(snapshot);
+
+  assert.equal(recordingPlan.targetDurationSeconds, 240);
+  assert.equal(recordingPlan.scenes.length, 7);
+  assert.ok(recordingPlan.scenes.some((scene) => scene.narration.includes("risk 86")));
+  assert.ok(recordingPlan.recordingChecklist.some((item) => item.includes("Unsafe after issue")));
 });

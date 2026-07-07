@@ -24,8 +24,9 @@ flowchart LR
 - `src/domain/benchmark.js` defines the multi-scenario evaluation benchmark used by the dashboard and API.
 - `src/domain/submission.js` maps prototype evidence to hackathon judging criteria and deliverables.
 - `src/domain/pitch-pack.js` generates the pitch brief, proof points and demo flow used by the dashboard and API.
+- `src/domain/recording-plan.js` generates the timed storyboard for the 4-minute submission video.
 - `src/app.js` turns the scenario into a judge-facing live command center.
-- `server.js` serves the static prototype and exposes `/api/health`, `/api/world/current`, `/api/risk/current`, `/api/futures/simulate`, `/api/intelligence/permit`, `/api/intelligence/memory`, `/api/graph/context`, `/api/reports/latest`, `/api/evaluation/summary`, `/api/evaluation/benchmark`, `/api/submission/readiness` and `/api/submission/pitch-pack`.
+- `server.js` serves the static prototype and exposes `/api/health`, `/api/world/current`, `/api/risk/current`, `/api/futures/simulate`, `/api/intelligence/permit`, `/api/intelligence/memory`, `/api/graph/context`, `/api/reports/latest`, `/api/evaluation/summary`, `/api/evaluation/benchmark`, `/api/submission/readiness`, `/api/submission/pitch-pack` and `/api/submission/recording-plan`.
 
 ## Production Expansion
 
