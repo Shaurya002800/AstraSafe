@@ -50,7 +50,10 @@ button {
 .permit-panel,
 .memory-panel,
 .checklist-panel,
+.orchestration-panel,
 .evidence-panel,
+.bundle-panel,
+.adapter-panel,
 .events-panel,
 .evaluation-panel,
 .benchmark-panel,
@@ -180,6 +183,10 @@ body[data-risk="critical"] .state-dot {
   margin-top: 16px;
 }
 
+.dashboard-grid > * {
+  min-width: 0;
+}
+
 .plant-panel,
 .risk-panel,
 .pathway-panel,
@@ -188,7 +195,10 @@ body[data-risk="critical"] .state-dot {
 .permit-panel,
 .memory-panel,
 .checklist-panel,
+.orchestration-panel,
 .evidence-panel,
+.bundle-panel,
+.adapter-panel,
 .events-panel,
 .evaluation-panel,
 .benchmark-panel,
@@ -449,6 +459,13 @@ body[data-risk="critical"] .risk-badge {
 .secondary-action {
   padding: 0 14px;
   color: var(--text);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
 }
 
 .risk-meter,
@@ -853,6 +870,81 @@ body[data-risk="critical"] .risk-badge {
   color: var(--green);
 }
 
+.orchestration-summary,
+.approval-list div,
+.dispatch-list div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.orchestration-summary {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.orchestration-summary strong {
+  color: var(--teal);
+  text-transform: capitalize;
+}
+
+.orchestration-summary span {
+  color: var(--amber);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.orchestration-summary p,
+.approval-list p,
+.dispatch-list p {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.approval-list,
+.dispatch-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.approval-list div,
+.dispatch-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px 10px;
+  padding: 12px;
+}
+
+.approval-list div.required {
+  border-color: rgba(241, 94, 85, 0.32);
+}
+
+.approval-list span,
+.dispatch-list span {
+  color: var(--text);
+  font-weight: 850;
+}
+
+.approval-list strong {
+  color: var(--green);
+  font-size: 0.76rem;
+}
+
+.approval-list .required strong,
+.dispatch-list b {
+  color: var(--red);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.approval-list p,
+.dispatch-list p {
+  grid-column: 1 / -1;
+}
+
 .intervention-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1173,6 +1265,123 @@ body[data-risk="critical"] .risk-badge {
   line-height: 1.45;
 }
 
+.bundle-summary,
+.bundle-grid div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.bundle-summary {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.bundle-summary strong {
+  color: var(--teal);
+}
+
+.bundle-summary span {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.bundle-summary p {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.bundle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.bundle-grid div {
+  display: grid;
+  gap: 7px;
+  min-height: 72px;
+  padding: 12px;
+}
+
+.bundle-grid span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.bundle-grid strong {
+  overflow-wrap: anywhere;
+}
+
+.adapter-summary,
+.adapter-grid div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.adapter-summary {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.adapter-summary strong {
+  color: var(--teal);
+  text-transform: capitalize;
+}
+
+.adapter-summary p {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.adapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.adapter-grid div {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  min-height: 118px;
+  padding: 12px;
+}
+
+.adapter-grid div.active {
+  border-color: rgba(87, 214, 141, 0.32);
+  background: rgba(87, 214, 141, 0.05);
+}
+
+.adapter-grid span {
+  color: var(--text);
+  font-weight: 850;
+}
+
+.adapter-grid strong {
+  color: var(--amber);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.adapter-grid div.active strong {
+  color: var(--green);
+}
+
+.adapter-grid p,
+.adapter-grid small {
+  color: var(--muted);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
 #event-feed time {
   display: inline-block;
   min-width: 54px;
@@ -1243,6 +1452,14 @@ body[data-risk="critical"] .risk-badge {
   }
 
   .scene-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .bundle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .adapter-grid {
     grid-template-columns: 1fr;
   }
 }

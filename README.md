@@ -43,6 +43,9 @@ npm test
 - Submission readiness API mapping the prototype to hackathon judging criteria and deliverables.
 - Pitch pack API and copyable demo brief for deck/video preparation.
 - Timed demo recording plan for a 4-minute submission video.
+- Evidence bundle API and export controls for audit-ready prevention evidence.
+- Integration adapter contracts for SCADA, permits, CCTV metadata, maintenance, shifts and incident memory.
+- Response orchestration workflow for safety officer approval, dispatch messages and evidence preservation.
 - Causal factor evidence with event IDs.
 - Counterfactual future simulator for no-action and intervention futures.
 - Intervention ranking based on projected risk reduction, response speed, confidence, reversibility and disruption.
@@ -62,6 +65,9 @@ curl "http://127.0.0.1:4173/api/intelligence/permit?step=6"
 curl "http://127.0.0.1:4173/api/intelligence/memory?step=6"
 curl "http://127.0.0.1:4173/api/graph/context?step=6"
 curl "http://127.0.0.1:4173/api/reports/latest?step=6"
+curl "http://127.0.0.1:4173/api/evidence/bundle?step=6"
+curl "http://127.0.0.1:4173/api/integrations/adapters?step=6"
+curl "http://127.0.0.1:4173/api/orchestration/response?step=6"
 curl http://127.0.0.1:4173/api/evaluation/summary
 curl http://127.0.0.1:4173/api/evaluation/benchmark
 curl http://127.0.0.1:4173/api/submission/readiness

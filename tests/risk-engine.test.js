@@ -20,6 +20,9 @@ import { buildBenchmarkSummary } from "../src/domain/benchmark.js";
 import { buildSubmissionReadiness } from "../src/domain/submission.js";
 import { buildPitchPack } from "../src/domain/pitch-pack.js";
 import { buildRecordingPlan } from "../src/domain/recording-plan.js";
+import { buildEvidenceBundle } from "../src/domain/evidence-bundle.js";
+import { buildAdapterReadiness } from "../src/domain/adapters.js";
+import { buildResponseOrchestration } from "../src/domain/orchestration.js";
 
 test("AstraSafe detects the pathway before the traditional gas alarm", () => {
   const preventionEvents = scenarioEvents.slice(
@@ -162,4 +165,37 @@ test("recording plan gives a timed storyboard for the demo video", () => {
   assert.equal(recordingPlan.scenes.length, 7);
   assert.ok(recordingPlan.scenes.some((scene) => scene.narration.includes("risk 86")));
   assert.ok(recordingPlan.recordingChecklist.some((item) => item.includes("Unsafe after issue")));
+});
+
+test("evidence bundle packages auditable prevention state", () => {
+  const snapshot = buildSnapshot(6);
+  const bundle = buildEvidenceBundle(snapshot);
+
+  assert.equal(bundle.bundleId, "ASTRA-evt_1074");
+  assert.equal(bundle.manifest.riskScore, 86);
+  assert.equal(bundle.manifest.evidenceLinks, 7);
+  assert.equal(bundle.manifest.activeGraphNodes, 14);
+  assert.match(bundle.markdown, /AstraSafe Evidence Bundle/);
+  assert.match(bundle.contents.preventionReport, /Critical pre-incident/);
+});
+
+test("adapter readiness defines real integration contracts", () => {
+  const snapshot = buildSnapshot(6);
+  const readiness = buildAdapterReadiness(snapshot);
+
+  assert.equal(readiness.adapters.length, 6);
+  assert.ok(readiness.adapters.every((adapter) => adapter.requiredFields.length > 0));
+  assert.ok(readiness.adapters.some((adapter) => adapter.id === "sensor_scada" && adapter.activeInScenario));
+  assert.ok(readiness.productionPath.some((step) => step.includes("SCADA")));
+});
+
+test("response orchestration keeps critical actions human-approved", () => {
+  const snapshot = buildSnapshot(6);
+  const orchestration = buildResponseOrchestration(snapshot);
+
+  assert.equal(orchestration.mode, "human_approval_required");
+  assert.equal(orchestration.incidentCommandState, "prevention_escalation");
+  assert.ok(orchestration.approvalGates.every((gate) => gate.owner));
+  assert.ok(orchestration.dispatchMessages.some((message) => message.channel === "Safety Officer"));
+  assert.match(orchestration.evacuationPlan.route, /Gate 3/);
 });

@@ -36,7 +36,12 @@ const ui = {
   pitchOutput: document.querySelector("#pitch-output"),
   copyBrief: document.querySelector("#copy-brief"),
   recordingOutput: document.querySelector("#recording-output"),
-  copyRecording: document.querySelector("#copy-recording")
+  copyRecording: document.querySelector("#copy-recording"),
+  bundleOutput: document.querySelector("#bundle-output"),
+  copyBundle: document.querySelector("#copy-bundle"),
+  downloadBundle: document.querySelector("#download-bundle"),
+  adapterOutput: document.querySelector("#adapter-output"),
+  orchestrationOutput: document.querySelector("#orchestration-output")
 };
 
 let eventIndex = 0;
@@ -410,6 +415,86 @@ function renderChecklist(snapshot) {
     .join("");
 }
 
+function renderOrchestration(snapshot) {
+  const orchestration = snapshot.responseOrchestration;
+  ui.orchestrationOutput.innerHTML = `
+    <div class="orchestration-summary">
+      <strong>${orchestration.incidentCommandState.replaceAll("_", " ")}</strong>
+      <span>${orchestration.mode.replaceAll("_", " ")}</span>
+      <p>${orchestration.recommendedIntervention}</p>
+    </div>
+    <div class="approval-list">
+      ${orchestration.approvalGates
+        .map(
+          (gate) => `
+            <div class="${gate.required ? "required" : ""}">
+              <span>${gate.owner}</span>
+              <strong>${gate.required ? "Required" : "Advisory"}</strong>
+              <p>${gate.action}</p>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+    <div class="dispatch-list">
+      ${orchestration.dispatchMessages
+        .map(
+          (dispatch) => `
+            <div>
+              <span>${dispatch.channel}</span>
+              <b>${dispatch.priority}</b>
+              <p>${dispatch.message}</p>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+function renderEvidenceBundle(snapshot) {
+  const bundle = snapshot.evidenceBundle;
+  ui.bundleOutput.innerHTML = `
+    <div class="bundle-summary">
+      <strong>${bundle.bundleId}</strong>
+      <span>${bundle.manifest.riskScore}/100 ${bundle.manifest.riskState}</span>
+      <p>${bundle.auditNotes[0]} ${bundle.auditNotes[2]}</p>
+    </div>
+    <div class="bundle-grid">
+      <div><span>Evidence links</span><strong>${bundle.manifest.evidenceLinks}</strong></div>
+      <div><span>Graph nodes</span><strong>${bundle.manifest.activeGraphNodes}</strong></div>
+      <div><span>Graph links</span><strong>${bundle.manifest.activeGraphLinks}</strong></div>
+      <div><span>Model</span><strong>${bundle.manifest.modelVersion}</strong></div>
+    </div>
+  `;
+  ui.copyBundle.dataset.bundle = bundle.markdown;
+  ui.downloadBundle.dataset.bundle = JSON.stringify(bundle, null, 2);
+}
+
+function renderAdapters(snapshot) {
+  const readiness = snapshot.adapterReadiness;
+  ui.adapterOutput.innerHTML = `
+    <div class="adapter-summary">
+      <strong>${readiness.mode.replaceAll("_", " ")}</strong>
+      <p>${readiness.readiness}</p>
+    </div>
+    <div class="adapter-grid">
+      ${readiness.adapters
+        .map(
+          (adapter) => `
+            <div class="${adapter.activeInScenario ? "active" : ""}">
+              <span>${adapter.label}</span>
+              <strong>${adapter.status}</strong>
+              <p>${adapter.mapsTo}</p>
+              <small>${adapter.cadence} / ${adapter.requiredFields.length} fields</small>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
 function render() {
   const snapshot = buildSnapshot(eventIndex);
   const events = snapshot.world.activeEvents;
@@ -449,6 +534,9 @@ function render() {
   renderPermit(snapshot);
   renderMemory(snapshot);
   renderChecklist(snapshot);
+  renderOrchestration(snapshot);
+  renderEvidenceBundle(snapshot);
+  renderAdapters(snapshot);
 }
 
 function step(direction) {
@@ -500,6 +588,23 @@ ui.copyRecording.addEventListener("click", async () => {
   window.setTimeout(() => {
     ui.copyRecording.textContent = "Copy Plan";
   }, 1200);
+});
+ui.copyBundle.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(ui.copyBundle.dataset.bundle || "");
+  ui.copyBundle.textContent = "Copied";
+  window.setTimeout(() => {
+    ui.copyBundle.textContent = "Copy Bundle";
+  }, 1200);
+});
+ui.downloadBundle.addEventListener("click", () => {
+  const blob = new Blob([ui.downloadBundle.dataset.bundle || "{}"], {
+    type: "application/json"
+  });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "astrasafe-evidence-bundle.json";
+  link.click();
+  URL.revokeObjectURL(link.href);
 });
 
 document.querySelectorAll(".zone").forEach((zone) => {

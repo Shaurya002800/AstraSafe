@@ -18,6 +18,9 @@ import { buildBenchmarkSummary } from "./benchmark.js";
 import { buildSubmissionReadiness } from "./submission.js";
 import { buildPitchPack } from "./pitch-pack.js";
 import { buildRecordingPlan } from "./recording-plan.js";
+import { buildEvidenceBundle } from "./evidence-bundle.js";
+import { buildAdapterReadiness } from "./adapters.js";
+import { buildResponseOrchestration } from "./orchestration.js";
 
 export function clampEventIndex(index = 0) {
   const parsed = Number(index);
@@ -96,12 +99,15 @@ export function buildSnapshot(index = 0) {
 
   const enrichedSnapshot = {
     ...snapshot,
-    submission: buildSubmissionReadiness(snapshot)
+    submission: buildSubmissionReadiness(snapshot),
+    adapterReadiness: buildAdapterReadiness(snapshot),
+    responseOrchestration: buildResponseOrchestration(snapshot)
   };
 
   return {
     ...enrichedSnapshot,
     pitchPack: buildPitchPack(enrichedSnapshot),
-    recordingPlan: buildRecordingPlan(enrichedSnapshot)
+    recordingPlan: buildRecordingPlan(enrichedSnapshot),
+    evidenceBundle: buildEvidenceBundle(enrichedSnapshot)
   };
 }

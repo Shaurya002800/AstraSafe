@@ -25,8 +25,11 @@ flowchart LR
 - `src/domain/submission.js` maps prototype evidence to hackathon judging criteria and deliverables.
 - `src/domain/pitch-pack.js` generates the pitch brief, proof points and demo flow used by the dashboard and API.
 - `src/domain/recording-plan.js` generates the timed storyboard for the 4-minute submission video.
+- `src/domain/evidence-bundle.js` packages auditable risk, graph, permit, memory, benchmark and report evidence.
+- `src/domain/adapters.js` defines integration contracts for real plant data sources.
+- `src/domain/orchestration.js` defines human-approval response workflow, dispatch messages and evidence preservation.
 - `src/app.js` turns the scenario into a judge-facing live command center.
-- `server.js` serves the static prototype and exposes `/api/health`, `/api/world/current`, `/api/risk/current`, `/api/futures/simulate`, `/api/intelligence/permit`, `/api/intelligence/memory`, `/api/graph/context`, `/api/reports/latest`, `/api/evaluation/summary`, `/api/evaluation/benchmark`, `/api/submission/readiness`, `/api/submission/pitch-pack` and `/api/submission/recording-plan`.
+- `server.js` serves the static prototype and exposes `/api/health`, `/api/world/current`, `/api/risk/current`, `/api/futures/simulate`, `/api/intelligence/permit`, `/api/intelligence/memory`, `/api/graph/context`, `/api/reports/latest`, `/api/evidence/bundle`, `/api/integrations/adapters`, `/api/orchestration/response`, `/api/evaluation/summary`, `/api/evaluation/benchmark`, `/api/submission/readiness`, `/api/submission/pitch-pack` and `/api/submission/recording-plan`.
 
 ## Production Expansion
 

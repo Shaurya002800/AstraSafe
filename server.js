@@ -109,6 +109,24 @@ function handleApi(req, res) {
     return true;
   }
 
+  if (url.pathname === "/api/evidence/bundle") {
+    const bundleStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(bundleStep).evidenceBundle);
+    return true;
+  }
+
+  if (url.pathname === "/api/integrations/adapters") {
+    const adapterStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(adapterStep).adapterReadiness);
+    return true;
+  }
+
+  if (url.pathname === "/api/orchestration/response") {
+    const responseStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(responseStep).responseOrchestration);
+    return true;
+  }
+
   if (url.pathname === "/api/evaluation/summary") {
     sendJson(res, 200, snapshot.evaluation);
     return true;

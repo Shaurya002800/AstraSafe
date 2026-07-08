@@ -182,6 +182,16 @@
           <ul class="checklist" id="checklist-output"></ul>
         </section>
 
+        <section class="orchestration-panel" aria-label="Emergency response orchestration">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Response Orchestrator</p>
+              <h2>Human Approval Workflow</h2>
+            </div>
+          </div>
+          <div id="orchestration-output"></div>
+        </section>
+
         <section class="evidence-panel" aria-label="Evidence and prevention report">
           <div class="panel-header compact">
             <div>
@@ -191,6 +201,30 @@
             <button id="copy-report" class="secondary-action">Copy Report</button>
           </div>
           <pre id="report-output"></pre>
+        </section>
+
+        <section class="bundle-panel" aria-label="Evidence bundle">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Audit Bundle</p>
+              <h2>Evidence Export</h2>
+            </div>
+            <div class="button-row">
+              <button id="copy-bundle" class="secondary-action">Copy Bundle</button>
+              <button id="download-bundle" class="secondary-action">Download JSON</button>
+            </div>
+          </div>
+          <div id="bundle-output"></div>
+        </section>
+
+        <section class="adapter-panel" aria-label="Integration adapter readiness">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Integration Readiness</p>
+              <h2>Plant System Adapters</h2>
+            </div>
+          </div>
+          <div id="adapter-output"></div>
         </section>
 
         <section class="events-panel" aria-label="Live event stream">
