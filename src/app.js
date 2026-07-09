@@ -34,7 +34,15 @@ const ui = {
   benchmarkOutput: document.querySelector("#benchmark-output"),
   submissionOutput: document.querySelector("#submission-output"),
   pitchOutput: document.querySelector("#pitch-output"),
-  copyBrief: document.querySelector("#copy-brief")
+  copyBrief: document.querySelector("#copy-brief"),
+  recordingOutput: document.querySelector("#recording-output"),
+  copyRecording: document.querySelector("#copy-recording"),
+  bundleOutput: document.querySelector("#bundle-output"),
+  copyBundle: document.querySelector("#copy-bundle"),
+  downloadBundle: document.querySelector("#download-bundle"),
+  adapterOutput: document.querySelector("#adapter-output"),
+  orchestrationOutput: document.querySelector("#orchestration-output"),
+  governanceOutput: document.querySelector("#governance-output")
 };
 
 let eventIndex = 0;
@@ -285,6 +293,38 @@ function renderSubmission(snapshot) {
   `;
 }
 
+function renderGovernance(snapshot) {
+  const governance = snapshot.governance;
+  ui.governanceOutput.innerHTML = `
+    <div class="governance-card">
+      <span>${governance.modelName}</span>
+      <strong>${governance.productionGate}</strong>
+      <p>${governance.intendedUse}</p>
+    </div>
+    <div class="governance-grid">
+      <div>
+        <span>Not for</span>
+        <p>${governance.notFor}</p>
+      </div>
+      <div>
+        <span>Validation</span>
+        <p>${governance.validationStatus.evidence}</p>
+      </div>
+      <div>
+        <span>Human oversight</span>
+        <p>${governance.humanOversight[0]}</p>
+      </div>
+      <div>
+        <span>Privacy</span>
+        <p>${governance.privacy[0]}</p>
+      </div>
+    </div>
+    <div class="limitation-list">
+      ${governance.limitations.map((item) => `<div>${item}</div>`).join("")}
+    </div>
+  `;
+}
+
 function renderPitchPack(snapshot) {
   const pitch = snapshot.pitchPack;
   ui.pitchOutput.innerHTML = `
@@ -301,6 +341,47 @@ function renderPitchPack(snapshot) {
     </ol>
   `;
   ui.copyBrief.dataset.brief = pitch.markdown;
+}
+
+function renderRecordingPlan(snapshot) {
+  const plan = snapshot.recordingPlan;
+  ui.recordingOutput.innerHTML = `
+    <div class="recording-summary">
+      <strong>${plan.title}</strong>
+      <p>${plan.openingLine}</p>
+    </div>
+    <div class="scene-list">
+      ${plan.scenes
+        .map(
+          (scene) => `
+            <article>
+              <time>${scene.timeRange}</time>
+              <div>
+                <span>${scene.screen}</span>
+                <p>${scene.action}</p>
+                <small>${scene.narration}</small>
+              </div>
+            </article>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+  ui.copyRecording.dataset.plan = [
+    `# ${plan.title}`,
+    "",
+    `Opening: ${plan.openingLine}`,
+    "",
+    ...plan.scenes.map(
+      (scene) =>
+        `## ${scene.timeRange} - ${scene.screen}\nAction: ${scene.action}\nNarration: ${scene.narration}`
+    ),
+    "",
+    "## Checklist",
+    ...plan.recordingChecklist.map((item) => `- ${item}`),
+    "",
+    `Closing: ${plan.closingLine}`
+  ].join("\n");
 }
 
 function renderPermit(snapshot) {
@@ -367,6 +448,86 @@ function renderChecklist(snapshot) {
     .join("");
 }
 
+function renderOrchestration(snapshot) {
+  const orchestration = snapshot.responseOrchestration;
+  ui.orchestrationOutput.innerHTML = `
+    <div class="orchestration-summary">
+      <strong>${orchestration.incidentCommandState.replaceAll("_", " ")}</strong>
+      <span>${orchestration.mode.replaceAll("_", " ")}</span>
+      <p>${orchestration.recommendedIntervention}</p>
+    </div>
+    <div class="approval-list">
+      ${orchestration.approvalGates
+        .map(
+          (gate) => `
+            <div class="${gate.required ? "required" : ""}">
+              <span>${gate.owner}</span>
+              <strong>${gate.required ? "Required" : "Advisory"}</strong>
+              <p>${gate.action}</p>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+    <div class="dispatch-list">
+      ${orchestration.dispatchMessages
+        .map(
+          (dispatch) => `
+            <div>
+              <span>${dispatch.channel}</span>
+              <b>${dispatch.priority}</b>
+              <p>${dispatch.message}</p>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+function renderEvidenceBundle(snapshot) {
+  const bundle = snapshot.evidenceBundle;
+  ui.bundleOutput.innerHTML = `
+    <div class="bundle-summary">
+      <strong>${bundle.bundleId}</strong>
+      <span>${bundle.manifest.riskScore}/100 ${bundle.manifest.riskState}</span>
+      <p>${bundle.auditNotes[0]} ${bundle.auditNotes[2]}</p>
+    </div>
+    <div class="bundle-grid">
+      <div><span>Evidence links</span><strong>${bundle.manifest.evidenceLinks}</strong></div>
+      <div><span>Graph nodes</span><strong>${bundle.manifest.activeGraphNodes}</strong></div>
+      <div><span>Graph links</span><strong>${bundle.manifest.activeGraphLinks}</strong></div>
+      <div><span>Model</span><strong>${bundle.manifest.modelVersion}</strong></div>
+    </div>
+  `;
+  ui.copyBundle.dataset.bundle = bundle.markdown;
+  ui.downloadBundle.dataset.bundle = JSON.stringify(bundle, null, 2);
+}
+
+function renderAdapters(snapshot) {
+  const readiness = snapshot.adapterReadiness;
+  ui.adapterOutput.innerHTML = `
+    <div class="adapter-summary">
+      <strong>${readiness.mode.replaceAll("_", " ")}</strong>
+      <p>${readiness.readiness}</p>
+    </div>
+    <div class="adapter-grid">
+      ${readiness.adapters
+        .map(
+          (adapter) => `
+            <div class="${adapter.activeInScenario ? "active" : ""}">
+              <span>${adapter.label}</span>
+              <strong>${adapter.status}</strong>
+              <p>${adapter.mapsTo}</p>
+              <small>${adapter.cadence} / ${adapter.requiredFields.length} fields</small>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
 function render() {
   const snapshot = buildSnapshot(eventIndex);
   const events = snapshot.world.activeEvents;
@@ -401,10 +562,15 @@ function render() {
   renderEvaluation(snapshot);
   renderBenchmark(snapshot);
   renderSubmission(snapshot);
+  renderGovernance(snapshot);
   renderPitchPack(snapshot);
+  renderRecordingPlan(snapshot);
   renderPermit(snapshot);
   renderMemory(snapshot);
   renderChecklist(snapshot);
+  renderOrchestration(snapshot);
+  renderEvidenceBundle(snapshot);
+  renderAdapters(snapshot);
 }
 
 function step(direction) {
@@ -449,6 +615,30 @@ ui.copyBrief.addEventListener("click", async () => {
   window.setTimeout(() => {
     ui.copyBrief.textContent = "Copy Brief";
   }, 1200);
+});
+ui.copyRecording.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(ui.copyRecording.dataset.plan || "");
+  ui.copyRecording.textContent = "Copied";
+  window.setTimeout(() => {
+    ui.copyRecording.textContent = "Copy Plan";
+  }, 1200);
+});
+ui.copyBundle.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(ui.copyBundle.dataset.bundle || "");
+  ui.copyBundle.textContent = "Copied";
+  window.setTimeout(() => {
+    ui.copyBundle.textContent = "Copy Bundle";
+  }, 1200);
+});
+ui.downloadBundle.addEventListener("click", () => {
+  const blob = new Blob([ui.downloadBundle.dataset.bundle || "{}"], {
+    type: "application/json"
+  });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "astrasafe-evidence-bundle.json";
+  link.click();
+  URL.revokeObjectURL(link.href);
 });
 
 document.querySelectorAll(".zone").forEach((zone) => {

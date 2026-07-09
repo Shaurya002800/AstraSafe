@@ -109,6 +109,30 @@ function handleApi(req, res) {
     return true;
   }
 
+  if (url.pathname === "/api/evidence/bundle") {
+    const bundleStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(bundleStep).evidenceBundle);
+    return true;
+  }
+
+  if (url.pathname === "/api/integrations/adapters") {
+    const adapterStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(adapterStep).adapterReadiness);
+    return true;
+  }
+
+  if (url.pathname === "/api/orchestration/response") {
+    const responseStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(responseStep).responseOrchestration);
+    return true;
+  }
+
+  if (url.pathname === "/api/governance/model-card") {
+    const governanceStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(governanceStep).governance);
+    return true;
+  }
+
   if (url.pathname === "/api/evaluation/summary") {
     sendJson(res, 200, snapshot.evaluation);
     return true;
@@ -127,6 +151,12 @@ function handleApi(req, res) {
   if (url.pathname === "/api/submission/pitch-pack") {
     const pitchStep = url.searchParams.get("step") ?? 6;
     sendJson(res, 200, buildSnapshot(pitchStep).pitchPack);
+    return true;
+  }
+
+  if (url.pathname === "/api/submission/recording-plan") {
+    const recordingStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(recordingStep).recordingPlan);
     return true;
   }
 
