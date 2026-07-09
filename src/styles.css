@@ -58,6 +58,7 @@ button {
 .evaluation-panel,
 .benchmark-panel,
 .submission-panel,
+.governance-panel,
 .pitch-panel,
 .recording-panel {
   border: 1px solid rgba(244, 241, 232, 0.1);
@@ -203,6 +204,7 @@ body[data-risk="critical"] .state-dot {
 .evaluation-panel,
 .benchmark-panel,
 .submission-panel,
+.governance-panel,
 .pitch-panel,
 .recording-panel {
   border-radius: 8px;
@@ -1154,6 +1156,63 @@ body[data-risk="critical"] .risk-badge {
   color: var(--amber);
 }
 
+.governance-card,
+.governance-grid div,
+.limitation-list div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.governance-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.governance-card span,
+.governance-grid span {
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.governance-card strong {
+  color: var(--amber);
+  text-transform: uppercase;
+}
+
+.governance-card p,
+.governance-grid p,
+.limitation-list div {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.governance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.governance-grid div {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+}
+
+.limitation-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.limitation-list div {
+  padding: 10px 12px;
+}
+
 .pitch-card,
 .proof-list div,
 .demo-flow li {
@@ -1441,6 +1500,7 @@ body[data-risk="critical"] .risk-badge {
   .benchmark-summary,
   .benchmark-table div,
   .submission-score,
+  .governance-grid,
   .criteria-list div,
   .deliverable-list div {
     grid-template-columns: 1fr;

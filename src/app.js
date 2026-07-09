@@ -41,7 +41,8 @@ const ui = {
   copyBundle: document.querySelector("#copy-bundle"),
   downloadBundle: document.querySelector("#download-bundle"),
   adapterOutput: document.querySelector("#adapter-output"),
-  orchestrationOutput: document.querySelector("#orchestration-output")
+  orchestrationOutput: document.querySelector("#orchestration-output"),
+  governanceOutput: document.querySelector("#governance-output")
 };
 
 let eventIndex = 0;
@@ -292,6 +293,38 @@ function renderSubmission(snapshot) {
   `;
 }
 
+function renderGovernance(snapshot) {
+  const governance = snapshot.governance;
+  ui.governanceOutput.innerHTML = `
+    <div class="governance-card">
+      <span>${governance.modelName}</span>
+      <strong>${governance.productionGate}</strong>
+      <p>${governance.intendedUse}</p>
+    </div>
+    <div class="governance-grid">
+      <div>
+        <span>Not for</span>
+        <p>${governance.notFor}</p>
+      </div>
+      <div>
+        <span>Validation</span>
+        <p>${governance.validationStatus.evidence}</p>
+      </div>
+      <div>
+        <span>Human oversight</span>
+        <p>${governance.humanOversight[0]}</p>
+      </div>
+      <div>
+        <span>Privacy</span>
+        <p>${governance.privacy[0]}</p>
+      </div>
+    </div>
+    <div class="limitation-list">
+      ${governance.limitations.map((item) => `<div>${item}</div>`).join("")}
+    </div>
+  `;
+}
+
 function renderPitchPack(snapshot) {
   const pitch = snapshot.pitchPack;
   ui.pitchOutput.innerHTML = `
@@ -529,6 +562,7 @@ function render() {
   renderEvaluation(snapshot);
   renderBenchmark(snapshot);
   renderSubmission(snapshot);
+  renderGovernance(snapshot);
   renderPitchPack(snapshot);
   renderRecordingPlan(snapshot);
   renderPermit(snapshot);

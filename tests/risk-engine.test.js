@@ -23,6 +23,7 @@ import { buildRecordingPlan } from "../src/domain/recording-plan.js";
 import { buildEvidenceBundle } from "../src/domain/evidence-bundle.js";
 import { buildAdapterReadiness } from "../src/domain/adapters.js";
 import { buildResponseOrchestration } from "../src/domain/orchestration.js";
+import { buildGovernanceModelCard } from "../src/domain/governance.js";
 
 test("AstraSafe detects the pathway before the traditional gas alarm", () => {
   const preventionEvents = scenarioEvents.slice(
@@ -198,4 +199,15 @@ test("response orchestration keeps critical actions human-approved", () => {
   assert.ok(orchestration.approvalGates.every((gate) => gate.owner));
   assert.ok(orchestration.dispatchMessages.some((message) => message.channel === "Safety Officer"));
   assert.match(orchestration.evacuationPlan.route, /Gate 3/);
+});
+
+test("governance model card prevents unsafe production overclaiming", () => {
+  const snapshot = buildSnapshot(6);
+  const governance = buildGovernanceModelCard(snapshot);
+
+  assert.equal(governance.productionGate, "pilot_only");
+  assert.match(governance.notFor, /Autonomous plant shutdown/);
+  assert.ok(governance.humanOversight.some((item) => item.includes("human approval")));
+  assert.ok(governance.privacy.some((item) => item.includes("metadata only")));
+  assert.ok(governance.limitations.some((item) => item.includes("Synthetic scenario data")));
 });

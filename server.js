@@ -127,6 +127,12 @@ function handleApi(req, res) {
     return true;
   }
 
+  if (url.pathname === "/api/governance/model-card") {
+    const governanceStep = url.searchParams.get("step") ?? 6;
+    sendJson(res, 200, buildSnapshot(governanceStep).governance);
+    return true;
+  }
+
   if (url.pathname === "/api/evaluation/summary") {
     sendJson(res, 200, snapshot.evaluation);
     return true;

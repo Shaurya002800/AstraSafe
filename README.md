@@ -46,6 +46,7 @@ npm test
 - Evidence bundle API and export controls for audit-ready prevention evidence.
 - Integration adapter contracts for SCADA, permits, CCTV metadata, maintenance, shifts and incident memory.
 - Response orchestration workflow for safety officer approval, dispatch messages and evidence preservation.
+- Safety governance model card covering intended use, limits, privacy, validation and production gates.
 - Causal factor evidence with event IDs.
 - Counterfactual future simulator for no-action and intervention futures.
 - Intervention ranking based on projected risk reduction, response speed, confidence, reversibility and disruption.
@@ -68,6 +69,7 @@ curl "http://127.0.0.1:4173/api/reports/latest?step=6"
 curl "http://127.0.0.1:4173/api/evidence/bundle?step=6"
 curl "http://127.0.0.1:4173/api/integrations/adapters?step=6"
 curl "http://127.0.0.1:4173/api/orchestration/response?step=6"
+curl "http://127.0.0.1:4173/api/governance/model-card?step=6"
 curl http://127.0.0.1:4173/api/evaluation/summary
 curl http://127.0.0.1:4173/api/evaluation/benchmark
 curl http://127.0.0.1:4173/api/submission/readiness
