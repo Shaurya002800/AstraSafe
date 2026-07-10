@@ -6,7 +6,7 @@ import { buildSnapshot } from "./src/domain/snapshot.js";
 
 const root = fileURLToPath(new URL(".", import.meta.url));
 const port = Number(process.env.PORT || 4173);
-const host = process.env.HOST || "127.0.0.1";
+const host = process.env.HOST || (process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1");
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",

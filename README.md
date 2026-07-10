@@ -23,6 +23,12 @@ npm run dev
 
 Open `http://localhost:4173`.
 
+For hosted environments:
+
+```bash
+npm start
+```
+
 ## Test
 
 ```bash
@@ -80,3 +86,11 @@ curl http://127.0.0.1:4173/api/submission/recording-plan
 ## Safety Positioning
 
 AstraSafe is a decision-support and prevention intelligence layer. It does not replace SCADA interlocks, certified safety systems or trained safety officers. In production, high-impact actions such as permit pause, evacuation and shutdown require human approval.
+
+## Submission Assets
+
+- `docs/demo_script.md` - narration and flow for the demo video.
+- `docs/pitch_deck.md` - slide-by-slide content for the final deck.
+- `docs/final_submission_checklist.md` - upload checklist for repository, demo, deck and deployed app.
+- `docs/deployment_guide.md` - Render/local deployment steps and smoke checks.
+- `render.yaml` - Render web-service blueprint.
