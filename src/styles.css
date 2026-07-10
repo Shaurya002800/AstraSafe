@@ -42,6 +42,7 @@ button {
 
 .topbar,
 .metrics-strip,
+.judge-summary,
 .plant-panel,
 .risk-panel,
 .pathway-panel,
@@ -102,6 +103,64 @@ button {
 
 .metrics-strip strong {
   font-size: clamp(1.35rem, 3vw, 2.05rem);
+  line-height: 1;
+}
+
+.judge-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(520px, 0.95fr);
+  gap: 16px;
+  align-items: stretch;
+  margin-top: 16px;
+  padding: 18px;
+  border-radius: 8px;
+}
+
+.judge-copy {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  min-height: 148px;
+}
+
+.judge-copy h2 {
+  max-width: 720px;
+  font-size: clamp(1.25rem, 2.4vw, 2.15rem);
+}
+
+.judge-copy p:last-child {
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.proof-matrix {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.proof-matrix div {
+  display: grid;
+  align-content: space-between;
+  min-height: 148px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.proof-matrix span {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.proof-matrix strong {
+  color: var(--green);
+  font-size: clamp(1.4rem, 2.7vw, 2.15rem);
   line-height: 1;
 }
 
@@ -1467,6 +1526,7 @@ body[data-risk="critical"] .risk-badge {
 
   .topbar,
   .metrics-strip,
+  .judge-summary,
   .dashboard-grid,
   .future-grid,
   .control-strip {
@@ -1498,6 +1558,7 @@ body[data-risk="critical"] .risk-badge {
   }
 
   .benchmark-summary,
+  .proof-matrix,
   .benchmark-table div,
   .submission-score,
   .governance-grid,

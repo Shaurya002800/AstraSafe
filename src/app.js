@@ -25,6 +25,11 @@ const ui = {
   metricBaseline: document.querySelector("#metric-baseline"),
   metricReduction: document.querySelector("#metric-reduction"),
   metricEvidence: document.querySelector("#metric-evidence"),
+  judgeRisk: document.querySelector("#judge-risk"),
+  judgeLead: document.querySelector("#judge-lead"),
+  judgeReduction: document.querySelector("#judge-reduction"),
+  judgeReadiness: document.querySelector("#judge-readiness"),
+  judgeClaim: document.querySelector("#judge-claim"),
   methodOutput: document.querySelector("#method-output"),
   evaluationOutput: document.querySelector("#evaluation-output"),
   permitOutput: document.querySelector("#permit-output"),
@@ -205,6 +210,14 @@ function renderMetrics(snapshot) {
     snapshot.metrics.baselineStatus === "silent" ? "Silent" : "Alerting";
   ui.metricReduction.textContent = `${snapshot.metrics.projectedRiskReduction} pts`;
   ui.metricEvidence.textContent = `${snapshot.metrics.evidenceCount}`;
+}
+
+function renderJudgeSummary(snapshot) {
+  ui.judgeRisk.textContent = `${snapshot.risk.score}/100`;
+  ui.judgeLead.textContent = `${snapshot.metrics.leadTimeMinutes || 0} min`;
+  ui.judgeReduction.textContent = `${snapshot.metrics.projectedRiskReduction} pts`;
+  ui.judgeReadiness.textContent = `${snapshot.submission.overallReadiness}/100`;
+  ui.judgeClaim.textContent = snapshot.submission.finalPitch;
 }
 
 function renderMethodology(snapshot) {
@@ -558,6 +571,7 @@ function render() {
   renderMapState(riskResult);
   renderReport(events, riskResult, intervention);
   renderMetrics(snapshot);
+  renderJudgeSummary(snapshot);
   renderMethodology(snapshot);
   renderEvaluation(snapshot);
   renderBenchmark(snapshot);
