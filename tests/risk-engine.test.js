@@ -132,9 +132,15 @@ test("benchmark suite summarizes multi-scenario evaluation", () => {
 
   assert.equal(benchmark.summary.scenarioCount, 4);
   assert.equal(benchmark.summary.astraSafeDetectionRate, 1);
+  assert.equal(benchmark.summary.baselineDetectionRate, 0.75);
+  assert.equal(benchmark.summary.simpleRuleDetectionRate, 0.75);
   assert.equal(benchmark.summary.baselineMisses, 1);
+  assert.equal(benchmark.summary.simpleRuleMisses, 1);
   assert.equal(benchmark.summary.averageLeadTimeMinutes, 22);
   assert.equal(benchmark.scenarios[0].riskAfter, 18);
+  assert.equal(benchmark.methodology.version, "synthetic-benchmark-v1");
+  assert.match(benchmark.methodology.claimBoundary, /not real-plant accuracy claims/);
+  assert.ok(benchmark.scenarios.every((scenario) => scenario.causalSignals.length >= 4));
 });
 
 test("submission readiness maps build evidence to judging criteria", () => {
@@ -144,7 +150,11 @@ test("submission readiness maps build evidence to judging criteria", () => {
   assert.equal(submission.status, "submission_ready_mvp");
   assert.ok(submission.overallReadiness >= 85);
   assert.equal(submission.criteria.length, 5);
-  assert.ok(submission.deliverables.some((item) => item.id === "deck_video" && item.status === "next"));
+  assert.ok(submission.deliverables.some((item) => item.id === "pitch_deck" && item.status === "ready"));
+  assert.ok(submission.deliverables.some((item) => item.id === "demo_video" && item.status === "next"));
+  assert.ok(
+    submission.deliverables.some((item) => item.id === "public_deployment" && item.status === "next")
+  );
 });
 
 test("pitch pack turns current evidence into a demo brief", () => {

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">AstraSafe AI system architecture</title>
+  <desc id="desc">Plant data sources flow through normalization, graph context, causal risk, counterfactual simulation, human approval and evidence outputs.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6f7782"/>
+    </marker>
+    <style>
+      .title { font: 700 34px Arial, sans-serif; fill: #11161c; }
+      .subtitle { font: 400 16px Arial, sans-serif; fill: #606a75; }
+      .label { font: 700 16px Arial, sans-serif; fill: #11161c; }
+      .copy { font: 400 13px Arial, sans-serif; fill: #5a6570; }
+      .step { font: 700 12px Arial, sans-serif; fill: #1d5960; }
+      .box { fill: #ffffff; stroke: #cdd3da; stroke-width: 2; rx: 6; }
+      .source { fill: #edf8f7; stroke: #56aaa7; }
+      .reason { fill: #fff6df; stroke: #d7a43c; }
+      .action { fill: #eaf1ff; stroke: #668fd8; }
+      .guard { fill: #fbeded; stroke: #cc6963; }
+      .line { fill: none; stroke: #6f7782; stroke-width: 2.2; marker-end: url(#arrow); }
+      .dash { fill: none; stroke: #9aa2ab; stroke-width: 1.8; stroke-dasharray: 7 6; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1280" height="720" fill="#f7f8fa"/>
+  <text x="64" y="62" class="title">AstraSafe AI: causal prevention architecture</text>
+  <text x="64" y="91" class="subtitle">Deterministic safety reasoning underneath, evidence-grounded explanation above it</text>
+
+  <path class="line" d="M 242 279 H 294"/>
+  <path class="line" d="M 482 279 H 534"/>
+  <path class="line" d="M 722 279 H 774"/>
+  <path class="line" d="M 962 279 H 1014"/>
+  <path class="line" d="M 868 358 V 431"/>
+  <path class="line" d="M 1108 358 V 431"/>
+  <path class="dash" d="M 388 358 V 522 H 522"/>
+  <path class="dash" d="M 628 358 V 522 H 672"/>
+
+  <g>
+    <rect x="64" y="154" width="178" height="250" class="box source"/>
+    <text x="84" y="184" class="step">01 / PLANT CONTEXT</text>
+    <text x="84" y="219" class="label">Input adapters</text>
+    <text x="84" y="251" class="copy">SCADA and sensors</text>
+    <text x="84" y="278" class="copy">Permit-to-work</text>
+    <text x="84" y="305" class="copy">CCTV metadata</text>
+    <text x="84" y="332" class="copy">Maintenance logs</text>
+    <text x="84" y="359" class="copy">Shift records</text>
+    <text x="84" y="386" class="copy">Incident memory</text>
+  </g>
+
+  <g>
+    <rect x="294" y="200" width="188" height="158" class="box"/>
+    <text x="314" y="230" class="step">02 / NORMALIZE</text>
+    <text x="314" y="267" class="label">Unified event layer</text>
+    <text x="314" y="297" class="copy">Source IDs, timestamps,</text>
+    <text x="314" y="319" class="copy">confidence and zone context</text>
+  </g>
+
+  <g>
+    <rect x="534" y="200" width="188" height="158" class="box source"/>
+    <text x="554" y="230" class="step">03 / CONNECT</text>
+    <text x="554" y="267" class="label">Plant knowledge graph</text>
+    <text x="554" y="297" class="copy">Workers, zones, permits,</text>
+    <text x="554" y="319" class="copy">equipment, sensors and SOPs</text>
+  </g>
+
+  <g>
+    <rect x="774" y="200" width="188" height="158" class="box reason"/>
+    <text x="794" y="230" class="step">04 / REASON</text>
+    <text x="794" y="267" class="label">Causal risk engine</text>
+    <text x="794" y="297" class="copy">Weighted compound score</text>
+    <text x="794" y="319" class="copy">with traceable evidence</text>
+  </g>
+
+  <g>
+    <rect x="1014" y="200" width="202" height="158" class="box reason"/>
+    <text x="1034" y="230" class="step">05 / SIMULATE</text>
+    <text x="1034" y="267" class="label">Counterfactual futures</text>
+    <text x="1034" y="297" class="copy">No action vs targeted action</text>
+    <text x="1034" y="319" class="copy">with intervention ranking</text>
+  </g>
+
+  <g>
+    <rect x="774" y="431" width="188" height="142" class="box action"/>
+    <text x="794" y="461" class="step">06 / EXPLAIN</text>
+    <text x="794" y="497" class="label">Command center</text>
+    <text x="794" y="527" class="copy">Causal pathway, permit</text>
+    <text x="794" y="549" class="copy">intelligence and checklist</text>
+  </g>
+
+  <g>
+    <rect x="1014" y="431" width="202" height="142" class="box guard"/>
+    <text x="1034" y="461" class="step">07 / APPROVE</text>
+    <text x="1034" y="497" class="label">Human decision gate</text>
+    <text x="1034" y="527" class="copy">Permit pause, evacuation and</text>
+    <text x="1034" y="549" class="copy">shutdown remain human-approved</text>
+  </g>
+
+  <g>
+    <rect x="522" y="475" width="150" height="96" class="box"/>
+    <text x="542" y="505" class="step">AUDIT STREAM</text>
+    <text x="542" y="538" class="label">Evidence bundle</text>
+    <text x="542" y="558" class="copy">Replay and report</text>
+  </g>
+
+  <rect x="64" y="629" width="1152" height="42" rx="4" fill="#11161c"/>
+  <text x="88" y="656" style="font: 700 15px Arial, sans-serif; fill: #ffffff;">Safety boundary: AstraSafe supports certified systems and trained officers; it does not autonomously control the plant.</text>
+</svg>

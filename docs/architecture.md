@@ -1,5 +1,7 @@
 # AstraSafe Architecture
 
+![AstraSafe architecture](./assets/architecture.svg)
+
 ## Prototype Flow
 
 ```mermaid
@@ -35,3 +37,7 @@ flowchart LR
 ## Production Expansion
 
 The prototype is intentionally deterministic for hackathon trust. A production build would replace the synthetic timeline with adapters for SCADA, MQTT/Kafka sensor streams, permit-to-work systems, EHS documents and CCTV metadata. The LLM layer should remain an explanation and report layer, not the sole risk calculator.
+
+## Safety Boundary
+
+AstraSafe is upstream decision support. Existing interlocks continue to operate independently, and high-impact recommendations pass through a named human approval gate. This boundary keeps the prototype aligned with the plan's safety and governance requirements.

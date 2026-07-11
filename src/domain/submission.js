@@ -83,10 +83,22 @@ export function buildSubmissionReadiness(snapshot) {
         evidence: "The Accident That Never Happened: risk 86 before the traditional threshold alarm."
       },
       {
-        id: "deck_video",
-        label: "Deck and video",
+        id: "pitch_deck",
+        label: "Presentation deck",
+        status: "ready",
+        evidence: "The verified 11-slide PowerPoint is available in outputs/AstraSafe_AI_Hackathon_Pitch.pptx."
+      },
+      {
+        id: "demo_video",
+        label: "Demo video",
         status: "next",
-        evidence: "Use docs/demo_script.md and the dashboard prevention state for recording."
+        evidence: "Record the 4-minute walkthrough using docs/demo_script.md and the prevention-state dashboard."
+      },
+      {
+        id: "public_deployment",
+        label: "Public deployment",
+        status: "next",
+        evidence: "Deploy with render.yaml, then run the production smoke checks in docs/deployment_guide.md."
       }
     ]
   };

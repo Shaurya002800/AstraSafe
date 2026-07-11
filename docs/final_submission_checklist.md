@@ -9,6 +9,13 @@ Use this checklist before uploading the project to the hackathon portal.
 - Demo video link.
 - Pitch deck file or deck link.
 
+## Prepared Artifacts
+
+- `outputs/AstraSafe_AI_Hackathon_Pitch.pptx` - verified 11-slide competition deck.
+- `docs/assets/dashboard-prevention.png` - prevention-state product screenshot.
+- `docs/assets/architecture.svg` - system architecture visual.
+- `docs/evaluation_report.md` - synthetic benchmark report and claim boundaries.
+
 ## Repository Check
 
 ```bash

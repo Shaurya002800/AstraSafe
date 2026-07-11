@@ -246,19 +246,32 @@ function renderEvaluation(snapshot) {
 function renderBenchmark(snapshot) {
   const benchmark = snapshot.benchmark;
   ui.benchmarkOutput.innerHTML = `
+    <div class="benchmark-method">
+      <span>${benchmark.methodology.validationType}</span>
+      <p>${benchmark.methodology.claimBoundary}</p>
+    </div>
     <div class="benchmark-summary">
       <div><span>Scenarios</span><strong>${benchmark.summary.scenarioCount}</strong></div>
-      <div><span>Detection rate</span><strong>${Math.round(benchmark.summary.astraSafeDetectionRate * 100)}%</strong></div>
+      <div><span>AstraSafe detection</span><strong>${Math.round(benchmark.summary.astraSafeDetectionRate * 100)}%</strong></div>
+      <div><span>Threshold detection</span><strong>${Math.round(benchmark.summary.baselineDetectionRate * 100)}%</strong></div>
       <div><span>Avg lead time</span><strong>${benchmark.summary.averageLeadTimeMinutes} min</strong></div>
       <div><span>Avg risk reduction</span><strong>${benchmark.summary.averageRiskReduction} pts</strong></div>
     </div>
     <div class="benchmark-table">
+      <div class="benchmark-header">
+        <span>Scenario</span>
+        <b>AstraSafe</b>
+        <b>Static rule</b>
+        <b>Threshold</b>
+        <strong>Result</strong>
+      </div>
       ${benchmark.scenarios
         .map(
           (scenario) => `
             <div>
-              <span>${scenario.title}</span>
+              <span><b>${scenario.title}</b><small>${scenario.causalSignals.length} causal signals / ${scenario.evidenceLinks} evidence links</small></span>
               <b>${scenario.astraSafeAlertClock}</b>
+              <b>${scenario.simpleRuleAlertClock}</b>
               <b>${scenario.baselineAlertClock}</b>
               <strong>${scenario.leadTimeMinutes ?? "Detected"}${scenario.leadTimeMinutes ? " min" : ""}</strong>
             </div>
@@ -266,6 +279,7 @@ function renderBenchmark(snapshot) {
         )
         .join("")}
     </div>
+    <small class="benchmark-footnote">${benchmark.methodology.formulas.leadTime}. ${benchmark.methodology.formulas.riskReduction}.</small>
   `;
 }
 
