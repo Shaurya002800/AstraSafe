@@ -3,332 +3,331 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0e0f" />
     <title>AstraSafe AI - Causal Safety Twin</title>
     <meta
       name="description"
       content="AstraSafe AI predicts industrial accident pathways before traditional alarms trigger."
     />
-    <link rel="stylesheet" href="./src/styles.css?v=1.0.0" />
+    <script type="importmap" nonce="astrasafe-v2">
+      {
+        "imports": {
+          "three": "/node_modules/three/build/three.module.js",
+          "three/addons/": "/node_modules/three/examples/jsm/",
+          "lucide": "/node_modules/lucide/dist/esm/lucide.mjs"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="./src/styles.css?v=2.0.0" />
   </head>
   <body>
-    <main class="app-shell">
-      <section class="topbar" aria-label="AstraSafe status">
-        <div>
-          <p class="eyebrow">Nova Steel Demo Plant / Zone C</p>
-          <h1>AstraSafe AI</h1>
-        </div>
+    <header class="app-header">
+      <a class="brand" href="#incident" aria-label="AstraSafe AI home">
+        <span class="brand-mark"><i data-lucide="shield-check"></i></span>
+        <span>
+          <strong>AstraSafe</strong>
+          <small>Causal safety twin</small>
+        </span>
+      </a>
+
+      <div class="plant-identity">
+        <span>Nova Steel</span>
+        <strong>Zone C command</strong>
+      </div>
+
+      <div class="header-status">
         <div class="system-state" id="system-state">
           <span class="state-dot"></span>
           <span>Monitoring</span>
         </div>
         <div class="time-block">
-          <span>Scenario clock</span>
+          <span>Scenario</span>
           <strong id="scenario-time">10:30</strong>
         </div>
-      </section>
+      </div>
+    </header>
 
-      <section class="metrics-strip" aria-label="Operational metrics">
-        <div>
-          <span>Prediction lead time</span>
-          <strong id="metric-lead">--</strong>
-        </div>
-        <div>
-          <span>Single-sensor baseline</span>
-          <strong id="metric-baseline">Silent</strong>
-        </div>
-        <div>
-          <span>Projected risk reduction</span>
-          <strong id="metric-reduction">--</strong>
-        </div>
-        <div>
-          <span>Evidence links</span>
-          <strong id="metric-evidence">0</strong>
-        </div>
-      </section>
-
-      <section class="judge-summary" aria-label="Judge proof summary">
-        <div class="judge-copy">
-          <p class="eyebrow">Judge Proof</p>
-          <h2>Detects the accident pathway before the threshold alarm exists.</h2>
-          <p id="judge-claim">
-            AstraSafe links weak signals into one explainable prevention decision.
-          </p>
-        </div>
-        <div class="proof-matrix">
-          <div>
-            <span>Prevention risk</span>
-            <strong id="judge-risk">--</strong>
-          </div>
-          <div>
-            <span>Lead time</span>
-            <strong id="judge-lead">--</strong>
-          </div>
-          <div>
-            <span>Risk reduced</span>
-            <strong id="judge-reduction">--</strong>
-          </div>
-          <div>
-            <span>Readiness</span>
-            <strong id="judge-readiness">--</strong>
-          </div>
-        </div>
-      </section>
-
-      <section class="dashboard-grid">
-        <section class="plant-panel" aria-label="Live plant map">
-          <div class="panel-header">
+    <main>
+      <section class="incident-stage" id="incident" aria-label="Live AstraSafe incident demo">
+        <div class="scene-column">
+          <div class="scene-heading">
             <div>
-              <p class="eyebrow">Command Center</p>
-              <h2>The Accident That Never Happened</h2>
+              <p class="eyebrow">Live causal twin</p>
+              <h1>The accident that never happened</h1>
+              <p class="scene-subtitle" id="judge-claim">
+                Weak signals become one explainable prevention decision.
+              </p>
             </div>
-            <div class="risk-badge" id="risk-badge">0</div>
+            <div class="risk-badge" aria-label="Compound risk score">
+              <span>Risk</span>
+              <strong id="risk-badge">0</strong>
+              <small>/100</small>
+            </div>
           </div>
 
-          <div class="plant-map" id="plant-map">
-            <div class="route route-a"></div>
-            <div class="route route-b"></div>
-            <button class="zone zone-a" data-zone="zone_A">
-              <span>Zone A</span>
-              <small>Loading Bay</small>
-            </button>
-            <button class="zone zone-b" data-zone="zone_B">
-              <span>Zone B</span>
-              <small>Utilities</small>
-            </button>
-            <button class="zone zone-c" data-zone="zone_C">
-              <span>Zone C</span>
-              <small>Coke Oven / Hot Work</small>
-            </button>
-            <button class="zone zone-d" data-zone="zone_D">
-              <span>Zone D</span>
-              <small>Maintenance</small>
-            </button>
-            <div class="asset gas-sensor" title="Gas Sensor G7">G7</div>
-            <div class="asset fan" title="Ventilation Fan VF-2">VF-2</div>
-            <div class="asset permit" title="Hot Work Permit HW-204">HW</div>
-            <div class="worker worker-1" title="Worker W12"></div>
-            <div class="worker worker-2" title="Worker W14"></div>
-            <div class="worker worker-3" title="Worker W19"></div>
+          <div class="plant-map" id="plant-map" aria-label="Interactive 3D plant scene">
+            <div class="scene-fallback">
+              <i data-lucide="box"></i>
+              <span>3D plant view unavailable</span>
+            </div>
+            <div class="scene-hud scene-hud-left">
+              <span><i></i> G7 gas sensor</span>
+              <span><i></i> VF-2 ventilation</span>
+              <span><i></i> HW-204 hot work</span>
+            </div>
+            <div class="scene-hud scene-hud-right">
+              <span id="scene-gas">42 ppm</span>
+              <span id="scene-workers">0 workers exposed</span>
+            </div>
           </div>
 
-          <div class="control-strip" aria-label="Scenario controls">
-            <button id="step-back" class="icon-button" title="Step back" aria-label="Step back">
-              <span aria-hidden="true">‹</span>
-            </button>
-            <button id="play-toggle" class="primary-action">Play Scenario</button>
-            <button id="step-forward" class="icon-button" title="Step forward" aria-label="Step forward">
-              <span aria-hidden="true">›</span>
-            </button>
-            <button id="jump-critical" class="secondary-action">Jump to Prevention</button>
+          <div class="scenario-console">
+            <div class="control-strip" aria-label="Scenario controls">
+              <button id="step-back" class="icon-button" title="Previous event" aria-label="Previous event">
+                <i data-lucide="skip-back"></i>
+              </button>
+              <button id="play-toggle" class="primary-action">
+                <i data-lucide="play" id="play-icon"></i>
+                <span id="play-label">Play scenario</span>
+              </button>
+              <button id="step-forward" class="icon-button" title="Next event" aria-label="Next event">
+                <i data-lucide="skip-forward"></i>
+              </button>
+              <button id="jump-critical" class="secondary-action">
+                <i data-lucide="locate-fixed"></i>
+                Jump to prevention
+              </button>
+            </div>
+            <div class="scenario-progress" aria-label="Scenario progress">
+              <div><i id="scenario-progress-fill"></i></div>
+              <span id="scenario-step">1 / 7</span>
+            </div>
           </div>
-        </section>
+        </div>
 
         <aside class="risk-panel" aria-label="Current risk explanation">
           <div class="panel-header compact">
             <div>
-              <p class="eyebrow">Compound Risk</p>
+              <p class="eyebrow">Compound risk</p>
               <h2 id="risk-state">Normal</h2>
             </div>
-            <span class="lead-time" id="lead-time">No lead time yet</span>
+            <span class="lead-time" id="lead-time">Baseline silent</span>
           </div>
-          <div class="risk-meter" aria-hidden="true">
-            <div id="risk-fill"></div>
-          </div>
+          <div class="risk-meter" aria-hidden="true"><div id="risk-fill"></div></div>
           <div class="factor-list" id="factor-list"></div>
           <div class="method-card" id="method-output"></div>
         </aside>
+      </section>
 
-        <section class="pathway-panel" aria-label="Causal accident pathway">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Causal Pathway</p>
-              <h2>Why AstraSafe Acts Early</h2>
-            </div>
-          </div>
-          <ol class="pathway-list" id="pathway-list"></ol>
-        </section>
+      <section class="metrics-strip" aria-label="Prevention proof">
+        <div>
+          <span>Lead time</span>
+          <strong id="metric-lead">--</strong>
+          <small id="judge-lead">0 min</small>
+        </div>
+        <div>
+          <span>Threshold alarm</span>
+          <strong id="metric-baseline">Silent</strong>
+          <small>single-sensor baseline</small>
+        </div>
+        <div>
+          <span>Risk removed</span>
+          <strong id="metric-reduction">--</strong>
+          <small id="judge-reduction">0 pts</small>
+        </div>
+        <div>
+          <span>Evidence</span>
+          <strong id="metric-evidence">0</strong>
+          <small>verified links</small>
+        </div>
+        <div>
+          <span>Prevention state</span>
+          <strong id="judge-risk">0/100</strong>
+          <small id="judge-readiness">88/100 ready</small>
+        </div>
+      </section>
 
-        <section class="graph-panel" aria-label="Live knowledge graph">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Knowledge Graph</p>
-              <h2>Connected Safety Context</h2>
-            </div>
+      <section class="decision-band" aria-labelledby="decision-title">
+        <header class="section-heading">
+          <div>
+            <p class="eyebrow">Prevention decision</p>
+            <h2 id="decision-title">See the chain. Compare the futures. Act early.</h2>
           </div>
-          <div id="graph-output"></div>
-        </section>
+          <span class="section-index">01</span>
+        </header>
 
-        <section class="replay-panel" aria-label="Counterfactual replay">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Counterfactual Replay</p>
-              <h2>No Action vs Recommended Action</h2>
+        <div class="decision-grid">
+          <section class="pathway-panel" aria-label="Causal accident pathway">
+            <div class="panel-header compact">
+              <div>
+                <p class="eyebrow">Causal pathway</p>
+                <h3>Why AstraSafe acts</h3>
+              </div>
+              <span class="panel-kicker">Evidence linked</span>
             </div>
-          </div>
-          <div class="future-grid">
-            <div class="future-card no-action">
-              <span>No Action</span>
-              <strong id="no-action-risk">--</strong>
-              <div class="sparkline" id="no-action-bars"></div>
-            </div>
-            <div class="future-card intervention">
-              <span>Pause + Evacuate + Restore VF-2</span>
-              <strong id="action-risk">--</strong>
-              <div class="sparkline" id="action-bars"></div>
-            </div>
-          </div>
-          <div class="intervention-card" id="intervention-card"></div>
-        </section>
+            <ol class="pathway-list" id="pathway-list"></ol>
+          </section>
 
-        <section class="permit-panel" aria-label="Permit intelligence">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Permit Intelligence</p>
-              <h2>Changing Context Review</h2>
+          <section class="replay-panel" aria-label="Counterfactual replay">
+            <div class="panel-header compact">
+              <div>
+                <p class="eyebrow">Counterfactual replay</p>
+                <h3>No action versus intervention</h3>
+              </div>
+              <span class="panel-kicker">10-minute horizon</span>
             </div>
-          </div>
-          <div id="permit-output"></div>
-        </section>
+            <div class="future-grid">
+              <div class="future-card no-action">
+                <span>No action</span>
+                <strong id="no-action-risk">--</strong>
+                <div class="sparkline" id="no-action-bars"></div>
+              </div>
+              <div class="future-card intervention">
+                <span>Recommended action</span>
+                <strong id="action-risk">--</strong>
+                <div class="sparkline" id="action-bars"></div>
+              </div>
+            </div>
+            <div class="intervention-card" id="intervention-card"></div>
+          </section>
+        </div>
+      </section>
 
-        <section class="memory-panel" aria-label="Incident memory">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Incident Memory</p>
-              <h2>Similar Near Misses and SOPs</h2>
-            </div>
+      <section class="operations-band" aria-labelledby="operations-title">
+        <header class="section-heading operations-heading">
+          <div>
+            <p class="eyebrow">Operational workspace</p>
+            <h2 id="operations-title">One incident, four focused views</h2>
           </div>
-          <div id="memory-output"></div>
-        </section>
+          <span class="section-index">02</span>
+        </header>
 
-        <section class="checklist-panel" aria-label="Safety officer checklist">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Safety Officer Copilot</p>
-              <h2>Action Checklist</h2>
-            </div>
-          </div>
-          <ul class="checklist" id="checklist-output"></ul>
-        </section>
+        <div class="workspace-tabs" role="tablist" aria-label="AstraSafe workspaces">
+          <button class="tab-button active" role="tab" aria-selected="true" data-tab="response">
+            <i data-lucide="shield-check"></i><span>Response</span>
+          </button>
+          <button class="tab-button" role="tab" aria-selected="false" data-tab="evidence">
+            <i data-lucide="file-search"></i><span>Evidence</span>
+          </button>
+          <button class="tab-button" role="tab" aria-selected="false" data-tab="validation">
+            <i data-lucide="chart-no-axes-combined"></i><span>Validation</span>
+          </button>
+          <button class="tab-button" role="tab" aria-selected="false" data-tab="system">
+            <i data-lucide="network"></i><span>System</span>
+          </button>
+        </div>
 
-        <section class="orchestration-panel" aria-label="Emergency response orchestration">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Response Orchestrator</p>
-              <h2>Human Approval Workflow</h2>
-            </div>
+        <div class="tab-panel active" data-panel="response" role="tabpanel">
+          <div class="response-grid">
+            <section class="permit-panel" aria-label="Permit intelligence">
+              <div class="panel-header compact">
+                <div><p class="eyebrow">Permit intelligence</p><h3>Changing context</h3></div>
+              </div>
+              <div id="permit-output"></div>
+            </section>
+            <section class="checklist-panel" aria-label="Safety officer checklist">
+              <div class="panel-header compact">
+                <div><p class="eyebrow">Safety officer</p><h3>Action checklist</h3></div>
+              </div>
+              <ul class="checklist" id="checklist-output"></ul>
+            </section>
+            <section class="orchestration-panel" aria-label="Emergency response orchestration">
+              <div class="panel-header compact">
+                <div><p class="eyebrow">Response orchestration</p><h3>Human approval workflow</h3></div>
+              </div>
+              <div id="orchestration-output"></div>
+            </section>
           </div>
-          <div id="orchestration-output"></div>
-        </section>
+        </div>
 
-        <section class="evidence-panel" aria-label="Evidence and prevention report">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Evidence Engine</p>
-              <h2>Prevention Report</h2>
-            </div>
-            <button id="copy-report" class="secondary-action">Copy Report</button>
+        <div class="tab-panel" data-panel="evidence" role="tabpanel" hidden>
+          <div class="evidence-grid">
+            <section class="events-panel" aria-label="Live event stream">
+              <div class="panel-header compact"><div><p class="eyebrow">Event stream</p><h3>Verified signals</h3></div></div>
+              <ul id="event-feed"></ul>
+            </section>
+            <section class="graph-panel" aria-label="Live knowledge graph">
+              <div class="panel-header compact"><div><p class="eyebrow">Knowledge graph</p><h3>Connected context</h3></div></div>
+              <div id="graph-output"></div>
+            </section>
+            <section class="memory-panel" aria-label="Incident memory">
+              <div class="panel-header compact"><div><p class="eyebrow">Incident memory</p><h3>Near misses and SOPs</h3></div></div>
+              <div id="memory-output"></div>
+            </section>
+            <section class="evidence-panel" aria-label="Evidence and prevention report">
+              <div class="panel-header compact">
+                <div><p class="eyebrow">Prevention report</p><h3>Auditable decision</h3></div>
+                <button id="copy-report" class="icon-text-button"><i data-lucide="copy"></i><span data-label>Copy</span></button>
+              </div>
+              <pre id="report-output"></pre>
+            </section>
+            <section class="bundle-panel" aria-label="Evidence bundle">
+              <div class="panel-header compact">
+                <div><p class="eyebrow">Audit bundle</p><h3>Evidence export</h3></div>
+                <div class="button-row">
+                  <button id="copy-bundle" class="icon-button" title="Copy bundle" aria-label="Copy bundle"><i data-lucide="copy"></i><span data-label class="visually-hidden">Copy</span></button>
+                  <button id="download-bundle" class="icon-button" title="Download evidence JSON" aria-label="Download evidence JSON"><i data-lucide="download"></i></button>
+                </div>
+              </div>
+              <div id="bundle-output"></div>
+            </section>
           </div>
-          <pre id="report-output"></pre>
-        </section>
+        </div>
 
-        <section class="bundle-panel" aria-label="Evidence bundle">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Audit Bundle</p>
-              <h2>Evidence Export</h2>
-            </div>
-            <div class="button-row">
-              <button id="copy-bundle" class="secondary-action">Copy Bundle</button>
-              <button id="download-bundle" class="secondary-action">Download JSON</button>
-            </div>
+        <div class="tab-panel" data-panel="validation" role="tabpanel" hidden>
+          <div class="validation-grid">
+            <section class="evaluation-panel" aria-label="Evaluation summary">
+              <div class="panel-header compact"><div><p class="eyebrow">Evaluation</p><h3>Baseline comparison</h3></div></div>
+              <div class="evaluation-table" id="evaluation-output"></div>
+            </section>
+            <section class="benchmark-panel" aria-label="Benchmark suite">
+              <div class="panel-header compact"><div><p class="eyebrow">Benchmark suite</p><h3>Scenario-level results</h3></div></div>
+              <div id="benchmark-output"></div>
+            </section>
+            <section class="governance-panel" aria-label="Safety governance model card">
+              <div class="panel-header compact"><div><p class="eyebrow">Safety governance</p><h3>Model card</h3></div></div>
+              <div id="governance-output"></div>
+            </section>
           </div>
-          <div id="bundle-output"></div>
-        </section>
+        </div>
 
-        <section class="adapter-panel" aria-label="Integration adapter readiness">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Integration Readiness</p>
-              <h2>Plant System Adapters</h2>
-            </div>
+        <div class="tab-panel" data-panel="system" role="tabpanel" hidden>
+          <div class="system-grid">
+            <section class="adapter-panel" aria-label="Integration adapter readiness">
+              <div class="panel-header compact"><div><p class="eyebrow">Integration readiness</p><h3>Plant system adapters</h3></div></div>
+              <div id="adapter-output"></div>
+            </section>
+            <section class="submission-panel" aria-label="Submission readiness">
+              <div class="panel-header compact"><div><p class="eyebrow">Prototype readiness</p><h3>Verified deliverables</h3></div></div>
+              <div id="submission-output"></div>
+            </section>
+            <section class="pitch-panel" aria-label="Pitch pack">
+              <div class="panel-header compact">
+                <div><p class="eyebrow">Demo brief</p><h3>Proof and flow</h3></div>
+                <button id="copy-brief" class="icon-text-button"><i data-lucide="copy"></i><span data-label>Copy</span></button>
+              </div>
+              <div id="pitch-output"></div>
+            </section>
+            <section class="recording-panel" aria-label="Demo recording plan">
+              <div class="panel-header compact">
+                <div><p class="eyebrow">Demo sequence</p><h3>Timed storyboard</h3></div>
+                <button id="copy-recording" class="icon-text-button"><i data-lucide="copy"></i><span data-label>Copy</span></button>
+              </div>
+              <div id="recording-output"></div>
+            </section>
           </div>
-          <div id="adapter-output"></div>
-        </section>
-
-        <section class="events-panel" aria-label="Live event stream">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Event Stream</p>
-              <h2>Verified Signals</h2>
-            </div>
-          </div>
-          <ul id="event-feed"></ul>
-        </section>
-
-        <section class="evaluation-panel" aria-label="Evaluation summary">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Evaluation</p>
-              <h2>Baseline Comparison</h2>
-            </div>
-          </div>
-          <div class="evaluation-table" id="evaluation-output"></div>
-        </section>
-
-        <section class="benchmark-panel" aria-label="Benchmark suite">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Benchmark Suite</p>
-              <h2>Scenario-Level Results</h2>
-            </div>
-          </div>
-          <div id="benchmark-output"></div>
-        </section>
-
-        <section class="submission-panel" aria-label="Submission readiness">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Submission Readiness</p>
-              <h2>Judging Alignment</h2>
-            </div>
-          </div>
-          <div id="submission-output"></div>
-        </section>
-
-        <section class="governance-panel" aria-label="Safety governance model card">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Safety Governance</p>
-              <h2>Model Card</h2>
-            </div>
-          </div>
-          <div id="governance-output"></div>
-        </section>
-
-        <section class="pitch-panel" aria-label="Pitch pack">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Pitch Pack</p>
-              <h2>Deck and Demo Brief</h2>
-            </div>
-            <button id="copy-brief" class="secondary-action">Copy Brief</button>
-          </div>
-          <div id="pitch-output"></div>
-        </section>
-
-        <section class="recording-panel" aria-label="Demo recording plan">
-          <div class="panel-header compact">
-            <div>
-              <p class="eyebrow">Demo Recording</p>
-              <h2>Timed Storyboard</h2>
-            </div>
-            <button id="copy-recording" class="secondary-action">Copy Plan</button>
-          </div>
-          <div id="recording-output"></div>
-        </section>
+        </div>
       </section>
     </main>
 
-    <script type="module" src="./src/app.js?v=1.0.0"></script>
+    <footer class="app-footer">
+      <div><i data-lucide="shield-check"></i><span>Decision support for trained safety teams</span></div>
+      <p>Synthetic deterministic prototype. High-impact actions require human approval.</p>
+      <a href="https://astrasafe-ai.onrender.com" target="_blank" rel="noreferrer">
+        Live service <i data-lucide="external-link"></i>
+      </a>
+    </footer>
+
+    <script type="module" src="./src/app.js?v=2.0.0"></script>
   </body>
 </html>

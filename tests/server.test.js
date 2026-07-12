@@ -32,6 +32,7 @@ test("health endpoint exposes production-safe headers", async () => {
   assert.equal(body.ok, true);
   assert.equal(response.headers["x-content-type-options"], "nosniff");
   assert.match(response.headers["content-security-policy"], /default-src 'self'/);
+  assert.match(response.headers["content-security-policy"], /nonce-astrasafe-v2/);
 });
 
 test("risk endpoint clamps invalid scenario steps", async () => {
@@ -61,4 +62,14 @@ test("static app supports GET and HEAD without exposing missing assets", async (
   assert.equal(headResponse.status, 200);
   assert.equal(headResponse.body, "");
   assert.equal(missingResponse.status, 404);
+});
+
+test("browser modules and fonts use strict MIME types", async () => {
+  const moduleResponse = await request("/node_modules/lucide/dist/esm/lucide.mjs", { method: "HEAD" });
+  const fontResponse = await request("/node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2", { method: "HEAD" });
+
+  assert.equal(moduleResponse.status, 200);
+  assert.match(moduleResponse.headers["content-type"], /text\/javascript/);
+  assert.equal(fontResponse.status, 200);
+  assert.equal(fontResponse.headers["content-type"], "font/woff2");
 });

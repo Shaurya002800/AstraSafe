@@ -72,6 +72,7 @@ See [docs/architecture.md](./docs/architecture.md) for module ownership and the 
 ## What Is Implemented
 
 - Deterministic synthetic plant simulator.
+- Interactive Three.js incident twin with live gas, worker, permit and ventilation state.
 - Explainable compound risk engine using the weighted model from the project plan.
 - Single-sensor baseline comparator.
 - API-style snapshot endpoints for world state, risk, futures and reports.
@@ -87,6 +88,8 @@ See [docs/architecture.md](./docs/architecture.md) for module ownership and the 
 - Integration adapter contracts for SCADA, permits, CCTV metadata, maintenance, shifts and incident memory.
 - Response orchestration workflow for safety officer approval, dispatch messages and evidence preservation.
 - Safety governance model card covering intended use, limits, privacy, validation and production gates.
+
+The interface follows the incident story instead of exposing every module at once: the first screen is the live 3D twin and compound risk, followed by the prevention decision and four focused operational workspaces. See [docs/product_walkthrough.md](./docs/product_walkthrough.md) for a plain-language tour.
 - Causal factor evidence with event IDs.
 - Counterfactual future simulator for no-action and intervention futures.
 - Intervention ranking based on projected risk reduction, response speed, confidence, reversibility and disruption.

@@ -1,6 +1,43 @@
-import { plantLayout, scenarioEvents } from "./domain/scenario.js";
+import {
+  Box,
+  ChartNoAxesCombined,
+  Copy,
+  Download,
+  ExternalLink,
+  FileSearch,
+  LocateFixed,
+  Network,
+  Pause,
+  Play,
+  ShieldCheck,
+  SkipBack,
+  SkipForward,
+  createIcons
+} from "lucide";
+import { scenarioEvents } from "./domain/scenario.js";
 import { buildSnapshot } from "./domain/snapshot.js";
 import { factorLabels } from "./domain/risk-engine.js";
+import { createIncidentScene } from "./scene.js";
+
+const iconSet = {
+  Box,
+  ChartNoAxesCombined,
+  Copy,
+  Download,
+  ExternalLink,
+  FileSearch,
+  LocateFixed,
+  Network,
+  Pause,
+  Play,
+  ShieldCheck,
+  SkipBack,
+  SkipForward
+};
+
+function refreshIcons() {
+  createIcons({ icons: iconSet });
+}
 
 const ui = {
   scenarioTime: document.querySelector("#scenario-time"),
@@ -19,8 +56,13 @@ const ui = {
   interventionCard: document.querySelector("#intervention-card"),
   reportOutput: document.querySelector("#report-output"),
   playToggle: document.querySelector("#play-toggle"),
+  playLabel: document.querySelector("#play-label"),
   copyReport: document.querySelector("#copy-report"),
   plantMap: document.querySelector("#plant-map"),
+  sceneGas: document.querySelector("#scene-gas"),
+  sceneWorkers: document.querySelector("#scene-workers"),
+  scenarioProgressFill: document.querySelector("#scenario-progress-fill"),
+  scenarioStep: document.querySelector("#scenario-step"),
   metricLead: document.querySelector("#metric-lead"),
   metricBaseline: document.querySelector("#metric-baseline"),
   metricReduction: document.querySelector("#metric-reduction"),
@@ -53,6 +95,7 @@ const ui = {
 let eventIndex = 0;
 let playing = false;
 let timer = null;
+const incidentScene = createIncidentScene(ui.plantMap);
 
 function statusClass(score) {
   if (score >= 76) return "critical";
@@ -190,12 +233,23 @@ function renderEvents(events) {
     .join("");
 }
 
-function renderMapState(riskResult) {
-  const state = riskResult.currentState;
+function renderMapState(snapshot) {
+  const state = snapshot.risk.currentState;
   ui.plantMap.classList.toggle("workers-visible", state.workerCount > 0);
   ui.plantMap.classList.toggle("permit-active", state.hotWorkActive);
   ui.plantMap.classList.toggle("fan-delayed", state.fanDelayed);
   ui.plantMap.classList.toggle("gas-rising", state.gasTrend === "rising_fast");
+  ui.sceneGas.textContent = `${state.gasPpm} ppm`;
+  ui.sceneWorkers.textContent = `${state.workerCount} worker${state.workerCount === 1 ? "" : "s"} exposed`;
+  incidentScene.update(snapshot);
+}
+
+function renderProgress() {
+  const totalSteps = scenarioEvents.length - 1;
+  const currentStep = eventIndex + 1;
+  const progress = totalSteps <= 1 ? 100 : (eventIndex / (totalSteps - 1)) * 100;
+  ui.scenarioProgressFill.style.width = `${progress}%`;
+  ui.scenarioStep.textContent = `${currentStep} / ${totalSteps}`;
 }
 
 function renderReport(events, riskResult, intervention) {
@@ -216,7 +270,7 @@ function renderJudgeSummary(snapshot) {
   ui.judgeRisk.textContent = `${snapshot.risk.score}/100`;
   ui.judgeLead.textContent = `${snapshot.metrics.leadTimeMinutes || 0} min`;
   ui.judgeReduction.textContent = `${snapshot.metrics.projectedRiskReduction} pts`;
-  ui.judgeReadiness.textContent = `${snapshot.submission.overallReadiness}/100`;
+  ui.judgeReadiness.textContent = `${snapshot.submission.overallReadiness}/100 ready`;
   ui.judgeClaim.textContent = snapshot.submission.finalPitch;
 }
 
@@ -582,7 +636,8 @@ function render() {
   renderPathway(riskResult);
   renderGraph(snapshot);
   renderEvents(events);
-  renderMapState(riskResult);
+  renderMapState(snapshot);
+  renderProgress();
   renderReport(events, riskResult, intervention);
   renderMetrics(snapshot);
   renderJudgeSummary(snapshot);
@@ -608,7 +663,12 @@ function step(direction) {
 
 function togglePlay() {
   playing = !playing;
-  ui.playToggle.textContent = playing ? "Pause Scenario" : "Play Scenario";
+  ui.playLabel.textContent = playing ? "Pause scenario" : "Play scenario";
+  const currentIcon = ui.playToggle.querySelector("svg, i");
+  const nextIcon = document.createElement("i");
+  nextIcon.dataset.lucide = playing ? "pause" : "play";
+  currentIcon?.replaceWith(nextIcon);
+  refreshIcons();
 
   if (playing) {
     timer = window.setInterval(() => {
@@ -630,33 +690,31 @@ document.querySelector("#jump-critical").addEventListener("click", () => {
   render();
 });
 ui.playToggle.addEventListener("click", togglePlay);
+
+function flashButton(button, message, fallback) {
+  const label = button.querySelector("[data-label]");
+  if (!label) return;
+  label.textContent = message;
+  window.setTimeout(() => {
+    label.textContent = fallback;
+  }, 1200);
+}
+
 ui.copyReport.addEventListener("click", async () => {
   await navigator.clipboard.writeText(ui.reportOutput.textContent);
-  ui.copyReport.textContent = "Copied";
-  window.setTimeout(() => {
-    ui.copyReport.textContent = "Copy Report";
-  }, 1200);
+  flashButton(ui.copyReport, "Copied", "Copy");
 });
 ui.copyBrief.addEventListener("click", async () => {
   await navigator.clipboard.writeText(ui.copyBrief.dataset.brief || "");
-  ui.copyBrief.textContent = "Copied";
-  window.setTimeout(() => {
-    ui.copyBrief.textContent = "Copy Brief";
-  }, 1200);
+  flashButton(ui.copyBrief, "Copied", "Copy");
 });
 ui.copyRecording.addEventListener("click", async () => {
   await navigator.clipboard.writeText(ui.copyRecording.dataset.plan || "");
-  ui.copyRecording.textContent = "Copied";
-  window.setTimeout(() => {
-    ui.copyRecording.textContent = "Copy Plan";
-  }, 1200);
+  flashButton(ui.copyRecording, "Copied", "Copy");
 });
 ui.copyBundle.addEventListener("click", async () => {
   await navigator.clipboard.writeText(ui.copyBundle.dataset.bundle || "");
-  ui.copyBundle.textContent = "Copied";
-  window.setTimeout(() => {
-    ui.copyBundle.textContent = "Copy Bundle";
-  }, 1200);
+  flashButton(ui.copyBundle, "Copied", "Copy");
 });
 ui.downloadBundle.addEventListener("click", () => {
   const blob = new Blob([ui.downloadBundle.dataset.bundle || "{}"], {
@@ -669,14 +727,21 @@ ui.downloadBundle.addEventListener("click", () => {
   URL.revokeObjectURL(link.href);
 });
 
-document.querySelectorAll(".zone").forEach((zone) => {
-  zone.addEventListener("click", () => {
-    const found = plantLayout.zones.find((item) => item.id === zone.dataset.zone);
-    if (found) {
-      ui.systemState.textContent = `${found.label}: ${found.role}`;
-      window.setTimeout(render, 1400);
-    }
+document.querySelectorAll("[data-tab]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const selectedTab = button.dataset.tab;
+    document.querySelectorAll("[data-tab]").forEach((candidate) => {
+      const active = candidate.dataset.tab === selectedTab;
+      candidate.classList.toggle("active", active);
+      candidate.setAttribute("aria-selected", String(active));
+    });
+    document.querySelectorAll("[data-panel]").forEach((panel) => {
+      const active = panel.dataset.panel === selectedTab;
+      panel.classList.toggle("active", active);
+      panel.hidden = !active;
+    });
   });
 });
 
+refreshIcons();
 render();

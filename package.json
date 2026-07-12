@@ -1,6 +1,6 @@
 {
   "name": "astrasafe-ai",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "AstraSafe AI - Causal Safety Twin prototype for zero-harm industrial operations.",
@@ -20,5 +20,10 @@
     "hackathon"
   ],
   "author": "Kunwar Shaurya Pratap Singh",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@fontsource/ibm-plex-sans": "^5.2.8",
+    "lucide": "^1.24.0",
+    "three": "^0.185.1"
+  }
 }
