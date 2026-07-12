@@ -1257,11 +1257,14 @@ body[data-risk="critical"] .risk-badge {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr);
   gap: 7px 10px;
+  min-width: 0;
   padding: 12px;
 }
 
 .deliverable-list p {
   grid-column: 2;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .deliverable-list .next b {

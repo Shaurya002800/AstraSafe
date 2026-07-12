@@ -1,13 +1,17 @@
 {
   "name": "astrasafe-ai",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "AstraSafe AI - Causal Safety Twin prototype for zero-harm industrial operations.",
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "check": "node --check server.js && node --check src/app.js && node --test"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "keywords": [
     "industrial-safety",
@@ -15,6 +19,6 @@
     "digital-twin",
     "hackathon"
   ],
-  "author": "AstraSafe AI",
+  "author": "Kunwar Shaurya Pratap Singh",
   "license": "MIT"
 }
