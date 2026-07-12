@@ -29,6 +29,12 @@ The server uses:
 
 ## Render Deployment
 
+Production service:
+
+```text
+https://astrasafe-ai.onrender.com
+```
+
 The repository includes `render.yaml`, so Render can create the service from the repo.
 
 Recommended Render settings:
@@ -42,9 +48,9 @@ Recommended Render settings:
 After deployment, verify:
 
 ```bash
-curl https://YOUR_RENDER_URL/api/health
-curl "https://YOUR_RENDER_URL/api/risk/current?step=6"
-curl "https://YOUR_RENDER_URL/api/submission/readiness"
+curl https://astrasafe-ai.onrender.com/api/health
+curl "https://astrasafe-ai.onrender.com/api/risk/current?step=6"
+curl "https://astrasafe-ai.onrender.com/api/submission/readiness"
 ```
 
 Expected proof points:

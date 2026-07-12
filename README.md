@@ -1,5 +1,7 @@
 # AstraSafe AI - Causal Safety Twin
 
+**Live prototype:** https://astrasafe-ai.onrender.com
+
 ![AstraSafe architecture](./docs/assets/architecture.svg)
 
 ![AstraSafe prevention-state dashboard](./docs/assets/dashboard-prevention.png)
@@ -151,4 +153,6 @@ AstraSafe is a decision-support and prevention intelligence layer. It does not r
 - `docs/evaluation_report.md` - benchmark method, results and claim boundaries.
 - `docs/assets/architecture.svg` - submission-ready architecture visual.
 - `outputs/AstraSafe_AI_Hackathon_Pitch.pptx` - final presentation deck.
+- `outputs/AstraSafe_Demo_Video.mp4` - ready-to-upload narrated demo video (kept out of Git to avoid repository bloat).
+- `docs/demo_narration.txt` - editable narration source used for the demo video.
 - `render.yaml` - Render web-service blueprint.

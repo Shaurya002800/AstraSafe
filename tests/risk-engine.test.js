@@ -151,9 +151,9 @@ test("submission readiness maps build evidence to judging criteria", () => {
   assert.ok(submission.overallReadiness >= 85);
   assert.equal(submission.criteria.length, 5);
   assert.ok(submission.deliverables.some((item) => item.id === "pitch_deck" && item.status === "ready"));
-  assert.ok(submission.deliverables.some((item) => item.id === "demo_video" && item.status === "next"));
+  assert.ok(submission.deliverables.some((item) => item.id === "demo_video" && item.status === "ready"));
   assert.ok(
-    submission.deliverables.some((item) => item.id === "public_deployment" && item.status === "next")
+    submission.deliverables.some((item) => item.id === "public_deployment" && item.status === "ready")
   );
 });
 

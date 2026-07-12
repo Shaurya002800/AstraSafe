@@ -91,14 +91,14 @@ export function buildSubmissionReadiness(snapshot) {
       {
         id: "demo_video",
         label: "Demo video",
-        status: "next",
-        evidence: "Record the 4-minute walkthrough using docs/demo_script.md and the prevention-state dashboard."
+        status: "ready",
+        evidence: "A 3 minute 30 second narrated pitch video is available at outputs/AstraSafe_Demo_Video.mp4."
       },
       {
         id: "public_deployment",
         label: "Public deployment",
-        status: "next",
-        evidence: "Deploy with render.yaml, then run the production smoke checks in docs/deployment_guide.md."
+        status: "ready",
+        evidence: "The verified Render service is live at https://astrasafe-ai.onrender.com."
       }
     ]
   };

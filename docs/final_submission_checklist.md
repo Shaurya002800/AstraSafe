@@ -4,14 +4,16 @@ Use this checklist before uploading the project to the hackathon portal.
 
 ## Required Links
 
-- GitHub repository link.
-- Public deployed app link.
-- Demo video link.
-- Pitch deck file or deck link.
+- GitHub repository: `https://github.com/Shaurya002800/AstraSafe/tree/shaurya/demo-cli-flow`.
+- Public deployed app: `https://astrasafe-ai.onrender.com`.
+- Demo video: `outputs/AstraSafe_Demo_Video.mp4` (upload to the submission portal or video host).
+- Pitch deck: `outputs/AstraSafe_AI_Hackathon_Pitch.pptx`.
 
 ## Prepared Artifacts
 
 - `outputs/AstraSafe_AI_Hackathon_Pitch.pptx` - verified 11-slide competition deck.
+- `outputs/AstraSafe_Demo_Video.mp4` - verified 3 minute 30 second narrated pitch video.
+- `outputs/AstraSafe_Demo_Narration.aiff` - editable narration audio master.
 - `docs/assets/dashboard-prevention.png` - prevention-state product screenshot.
 - `docs/assets/architecture.svg` - system architecture visual.
 - `docs/evaluation_report.md` - synthetic benchmark report and claim boundaries.
@@ -29,6 +31,12 @@ Expected:
 - Working tree is clean.
 
 ## Demo App Check
+
+Production:
+
+```text
+https://astrasafe-ai.onrender.com
+```
 
 Run locally:
 

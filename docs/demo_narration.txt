@@ -1,0 +1,21 @@
+AstraSafe AI is a causal safety twin for zero-harm industrial operations. Its purpose is simple: detect the accident pathway before a traditional alarm can see it.
+
+Industrial plants already have sensors, permits, cameras, maintenance systems, worker rosters and incident reports. The problem is that these systems usually operate in isolation. Serious incidents form in the gaps, when several individually weak signals combine into one dangerous chain.
+
+Our deterministic demo is called The Accident That Never Happened. At ten thirty, Gas Sensor G7 is below its one-hundred-parts-per-million alarm threshold. A conventional single-sensor system is silent. Over the next fifteen minutes, the gas trend rises, Ventilation Fan V F two remains delayed in maintenance, Hot Work Permit H W two zero four becomes active, three workers enter Zone C, and a shift handover begins.
+
+No individual signal is enough to explain the whole danger. AstraSafe connects them through plant relationship context and calculates a weighted compound risk. At ten forty-five, the system identifies a critical pre-incident state with a risk score of eighty-six out of one hundred, while the traditional gas threshold is still silent. That creates twenty-one minutes of prevention lead time.
+
+The dashboard does more than raise an alert. It shows the evidence-linked causal pathway: rising gas below threshold, degraded ventilation, active hot work, exposed workers, a matching near miss and reduced coordination during handover. Every claim points back to an event or source identifier, making the decision inspectable by a safety officer.
+
+AstraSafe then compares possible futures. With no action, projected risk reaches one hundred out of one hundred. The targeted response pauses hot work, clears Zone C and restores ventilation, reducing projected risk to eighteen. That is an eighty-two-point reduction without defaulting immediately to the most disruptive full-plant shutdown.
+
+The system also re-evaluates permit safety as context changes, retrieves similar incidents and operating procedures, and packages the evidence into an auditable prevention report. High-impact actions remain behind a human approval gate. AstraSafe supports trained safety teams; it does not replace certified interlocks, S C A D A controls or accountable officers.
+
+The architecture separates event adapters, the plant relationship graph, deterministic causal risk scoring, counterfactual simulation, intelligence modules and evidence export. This allows future connections to real sensor, permit, camera, maintenance and roster systems without changing the core decision contract.
+
+For transparent evaluation, we replay four authored synthetic scenarios against a single-threshold baseline and a two-factor static rule. AstraSafe detects all four pathways. The threshold and static-rule comparators detect three. Average lead time is twenty-two minutes where a threshold eventually fires, with an average projected risk reduction of fifty-seven points. These are prototype behavior results, not claims of real-plant accuracy.
+
+The innovation is the combination of compound causal pathway detection, relationship-graph context, counterfactual future comparison and evidence-linked intervention ranking in one workflow. The business value is earlier action, clearer decisions and less unnecessary disruption.
+
+Before the alarm. Before the accident. AstraSafe turns industrial safety from emergency response into emergency prevention.
